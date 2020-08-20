@@ -1,11 +1,11 @@
 for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",code:"TWT44U"]]) {
 	module.processor.ProcessorRunner.runDayByDay{
-		startYear 2010
-		startMonth 1
+		startYear 2020
+		startMonth 8
 		startday 1
 		endYear 2020
 		endMonth 8
-		endDay 19
+		endDay 20
 		process{yyyyMmDd->
 			println ''
 		    print yyyyMmDd

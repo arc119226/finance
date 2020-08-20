@@ -61,16 +61,26 @@ class Webget{
             if(get.getResponseCode().equals(200)) {
                 InputStream is = get.getInputStream();
                 if(decode == null){
-                    return org.apache.commons.io.IOUtils.toString(is);
+                    def r=org.apache.commons.io.IOUtils.toString(is);
+                    // if(r!=null && (r.contains('OK') || r.contains('No Data!')||r.contains('Sorry')) && !r.contains('null')){
+                    //     return r
+                    // } 
+                    if(r){
+                        return r
+                    }
                 }else{
-                    return org.apache.commons.io.IOUtils.toString(is, decode);
+                    def r=org.apache.commons.io.IOUtils.toString(is, decode);
+                    if(r!=null && (r.contains('OK') || r.contains('No Data!')||r.contains('Sorry')) && !r.contains('null')){
+                        return r
+                    } 
                 }
             }//if
             if(i==retry){
                 File error = new File(errorLog)
                 error.append('\n'+get.getResponseCode()+' '+url+'')
-                return ''
+                return null
             }//if
+            print '.'
             sleep(sleeptime)
         }//for
     }//download

@@ -9,7 +9,7 @@ module.processor.ProcessorRunner.runDayByDay{
 	startday 1
 	endYear 2020
 	endMonth 8
-	endDay 19
+	endDay 20
 	process{yyyyMmDd->
 		println ''
 	    print yyyyMmDd
