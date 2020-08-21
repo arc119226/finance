@@ -27,9 +27,10 @@ stockCodes.each{it->
 			endDay 1
 			process{yyyyMmDd->
 				sleep(25)
+				def _url = "https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&date=${yyyyMmDd}&stockNo=${security_code}"
 				print '.'
 				def returnJson = module.web.Webget.download{
-				     url "https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&date=${yyyyMmDd}&stockNo=${security_code}"
+				     url _url
 				     decode 'utf-8'
 				     retry 10
 				     sleeptime 250
@@ -50,11 +51,21 @@ stockCodes.each{it->
 					     	def _data = json.data[i].collect(valueNormalise)[0..1].join("','");
 					         if(resultSql.endsWith('VALUES ')){
 					        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');
+					        	if(Integer.valueOf(td) < 19990105||Integer.valueOf(td)>20200831){
+					        		File error = new File(errorLog)
+                					error.append("\n ${td} "+url+'')
+									return '';
+								}
 					        	resultSql+= "\r\n('${_data}','${td}','${security_code}')"
 					        }else if(i==json.data.size-1){
 					        	resultSql+= "\r\n,('${_data}','${yyyyMmDd}','${security_code}')"
 					        }else{
 					        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');
+					        	if(Integer.valueOf(td) < 19990105||Integer.valueOf(td)>20200831){
+					        		File error = new File(errorLog)
+                					error.append("\n ${td} "+url+'')
+									return '';
+								}
 					            resultSql+= "\r\n,('${_data}','${td}','${security_code}')"
 					        }
 					    }
