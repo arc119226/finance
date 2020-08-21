@@ -38,6 +38,7 @@ class Webget{
     }//end static
     String url=null,errorLog='error.txt',decode=null
     int retry=3,sleeptime=100
+    boolean validate=false
 
     def url(String url){
         this.url=url
@@ -53,6 +54,9 @@ class Webget{
     }
     def sleeptime(int sleeptime){
         this.sleeptime=sleeptime
+    }
+    def validate(boolean validate){
+        this.validate=validate
     }
 
     def openConnection(){
@@ -70,8 +74,28 @@ class Webget{
                     }
                 }else{
                     def r=org.apache.commons.io.IOUtils.toString(is, decode);
-                    if(r!=null && (r.contains('OK') || r.contains('No Data!')||r.contains('Sorry')) && !r.contains('null')){
-                        return r
+                    if(r!=null && (r.contains('OK') || 
+                                    r.contains('No Data!')||
+                                    r.contains('Sorry'))){
+                        if(false == validate){
+                            return r
+                        }else{
+                            //need strict validate
+                            def pattern = ~/(\d+\/\d+\/\d+)/
+                            def macher = r =~ pattern
+                            macher.find()
+                            macher.size()
+                            int failCount = 0
+                            macher.each{
+                                def value = Integer.valueOf(it[0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5'));
+                                if(value < Integer.valueOf(url[-8..-1]) || value > Integer.valueOf(url[-8..-3]+'31')){
+                                    failCount++
+                                }
+                            }
+                            if(failCount == 0 && !r.contains('null')){
+                                return r
+                            }
+                        }
                     } 
                 }
             }//if
