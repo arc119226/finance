@@ -69,10 +69,10 @@ static def process_download(){
 						     	def _data = json.data[i].collect(valueNormalise)[0..1].join("','");
 						         if(resultSql.endsWith('VALUES ')){
 						        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');
-						        	def md = Integer.valueOf(listing_day[0..5]+'31')
-						        	if(Integer.valueOf(td) < Integer.valueOf(listing_day)||Integer.valueOf(td)>md){
+						        	def md = Integer.valueOf(yyyyMmDd[0..5]+'31')
+						        	if(Integer.valueOf(td) < Integer.valueOf(yyyyMmDd) || Integer.valueOf(td)>md){
 						        		File error = new File('./fail_url')
-	                					error.append("\n${security_code} ${td} "+_url+' '+returnJson)
+	                					error.append("\n${security_code} ${td} ${yyyyMmDd} ${md}"+_url+' '+returnJson)
 										return null;
 									}
 						        	resultSql+= "\r\n('${_data}','${td}','${security_code}')"
@@ -80,10 +80,10 @@ static def process_download(){
 						        	resultSql+= "\r\n,('${_data}','${yyyyMmDd}','${security_code}')"
 						        }else{
 						        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');
-						        	def md = Integer.valueOf(listing_day[0..5]+'31')
-						        	if(Integer.valueOf(td) < Integer.valueOf(listing_day)||Integer.valueOf(td)>md){
+						        	def md = Integer.valueOf(yyyyMmDd[0..5]+'31')
+						        	if(Integer.valueOf(td) < Integer.valueOf(yyyyMmDd) || Integer.valueOf(td) > md){
 						        		File error = new File('./fail_url')
-	                					error.append("\n${security_code} ${td} "+_url+' '+returnJson)
+	                					error.append("\n${security_code} ${td} ${yyyyMmDd} ${md}"+_url+' '+returnJson)
 										return null;
 									}
 						            resultSql+= "\r\n,('${_data}','${td}','${security_code}')"
