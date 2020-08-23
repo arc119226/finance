@@ -14,11 +14,12 @@ https://www.twse.com.tw/fund/TWT44U?response=json&date=20200814
 https://www.twse.com.tw/fund/TWT38U?response=json&date=20200814
 個股日收盤價及月平均價 O
 https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&date=19990101&stockNo=1101
+月成交資訊 O
+https://www.twse.com.tw/exchangeReport/FMSRFK?response=json&lang=en&date=19920101&stockNo=1101
+
 
 每分鐘委託成交統計
 https://www.twse.com.tw/exchangeReport/MI_5MINS?response=json&lang=en&date=20041015&stockNo=1101
-月成交資訊
-https://www.twse.com.tw/exchangeReport/FMSRFK?response=json&lang=en&date=19920101&stockNo=1101
 大盤ALL
 https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date=20100104&type=ALL
 年度成交資訊

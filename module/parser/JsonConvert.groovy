@@ -20,6 +20,8 @@ class JsonConvert{
 		  .replaceAll('\\)','')
 		  .replaceAll('\\%','')
 		  .replaceAll('\\/','')
+		  .replaceAll('\\.','')
+		  .replaceAll('\\$','')
 		  .replaceAll('  ',' ')
 		  .trim()
 		  .replaceAll(' ','_')

@@ -26,6 +26,14 @@ class ProcessorRunner{
 	def process(def process){
 		this.process=process
 	}
+	def doYearByYear(){
+		def startYyyyMmDd = String.format("%04d%02d%02d",startYear,startMonth,1)
+		def endYyyyMmDd = String.format("%04d%02d%02d",endYear,endMonth,endDay)
+		for(int year = startYear; year <= endYear; year++){
+				def currentYyyyMmDd = String.format("%04d%02d%02d",year,1,1)
+				process.call(currentYyyyMmDd)
+		}
+	}
 	def doMonthByMonth(){
 		def startYyyyMmDd = String.format("%04d%02d%02d",startYear,startMonth,1)
 		def endYyyyMmDd = String.format("%04d%02d%02d",endYear,endMonth,endDay)
@@ -72,6 +80,12 @@ class ProcessorRunner{
         block.delegate = m
         block()
         return m.doMonthByMonth()
+    }
+    def static runYearByYear(@DelegatesTo(ProcessorRunner) Closure block){
+		ProcessorRunner m = new ProcessorRunner()
+        block.delegate = m
+        block()
+        return m.doYearByYear()
     }
 }
 
