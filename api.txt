@@ -15,12 +15,13 @@ https://www.twse.com.tw/fund/TWT38U?response=json&date=20200814
 個股日收盤價及月平均價 O
 https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&date=19990101&stockNo=1101
 
-
-每五秒委託成交統計
-https://www.twse.com.tw/exchangeReport/MI_5MINS?response=csv&date=20200814
- 月成交資訊
+每分鐘委託成交統計
+https://www.twse.com.tw/exchangeReport/MI_5MINS?response=json&lang=en&date=20041015&stockNo=1101
+月成交資訊
 https://www.twse.com.tw/exchangeReport/FMSRFK?response=json&lang=en&date=19920101&stockNo=1101
- 年度成交資訊
+大盤ALL
+https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date=20100104&type=ALL
+年度成交資訊
 https://www.twse.com.tw/exchangeReport/FMNPTK?response=json&lang=en&stockNo=1101
 當日融券賣出與借券賣出成交量值
 https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=20080926
@@ -31,5 +32,3 @@ https://www.twse.com.tw/fund/T86?response=json&date=20120502&selectType=ALL&lang
 https://www.twse.com.tw/fund/BFI82U?response=json&dayDate=20200814&weekDate=20200810&monthDate=20200814&type=day&lang=en
 外資陸資持股比例
 https://www.twse.com.tw/fund/MI_QFIIS?response=json&date=20200814&selectType=ALLBUT0999
-大盤
-https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=20200814&type=ALL

@@ -43,21 +43,21 @@ static def process_download(){
 				endMonth 8
 				endDay 1
 				process{yyyyMmDd->
-					sleep(50)
+					sleep(10)
 					def _url = "https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&stockNo=${security_code}&date=${yyyyMmDd}"
-					print '.'
+					//print '.'
 					def returnJson = module.web.Webget.download{
 					     url _url
 					     decode 'utf-8'
-					     retry 10
-					     sleeptime 250
+					     retry 100
+					     sleeptime 50
 					     validate true
 					}
 					module.parser.JsonConvert.convert{
 					    input returnJson
 						parseRule {json->
 						    if(json.stat != 'OK'){
-						    	print '.'
+						    	//print '.'
 						    	return ''
 					        }
 					        def fields = json.fields.collect(fieldNormalize)
@@ -69,23 +69,13 @@ static def process_download(){
 						     	def _data = json.data[i].collect(valueNormalise)[0..1].join("','");
 						         if(resultSql.endsWith('VALUES ')){
 						        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');
-						        	def md = Integer.valueOf(yyyyMmDd[0..5]+'31')
-						        	if(Integer.valueOf(td) < Integer.valueOf(yyyyMmDd) || Integer.valueOf(td)>md){
-						        		File error = new File('./fail_url')
-	                					error.append("\n${security_code} ${td} ${yyyyMmDd} ${md}"+_url+' '+returnJson)
-										return null;
-									}
+
 						        	resultSql+= "\r\n('${_data}','${td}','${security_code}')"
 						        }else if(i==json.data.size-1){
 						        	resultSql+= "\r\n,('${_data}','${yyyyMmDd}','${security_code}')"
 						        }else{
 						        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');
-						        	def md = Integer.valueOf(yyyyMmDd[0..5]+'31')
-						        	if(Integer.valueOf(td) < Integer.valueOf(yyyyMmDd) || Integer.valueOf(td) > md){
-						        		File error = new File('./fail_url')
-	                					error.append("\n${security_code} ${td} ${yyyyMmDd} ${md}"+_url+' '+returnJson)
-										return null;
-									}
+
 						            resultSql+= "\r\n,('${_data}','${td}','${security_code}')"
 						        }
 						    }
@@ -102,8 +92,6 @@ static def process_download(){
 		 		}
 		 		new File("./monthly_closing_average_price/${security_code}.tmp").renameTo("./monthly_closing_average_price/${security_code}.sql")
 		 		//print ', save sql done'
-			}else{
-
 			}
 			println security_code
 		}else{
@@ -111,12 +99,12 @@ static def process_download(){
 		}
 	}
 
-	// module.db.SqlExecuter.execute{
-	//     dir './monthly_closing_average_price'
-	// }
-	// module.io.FileBetch.execute{
-	// 	clean './monthly_closing_average_price'
-	// }
+	module.db.SqlExecuter.execute{
+	    dir './monthly_closing_average_price'
+	}
+	module.io.FileBetch.execute{
+		clean './monthly_closing_average_price'
+	}
 	println 'import monthly_closing_average_price done'
 }
 static main(args) {

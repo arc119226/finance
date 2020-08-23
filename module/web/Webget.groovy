@@ -76,6 +76,7 @@ class Webget{
                     def r=org.apache.commons.io.IOUtils.toString(is, decode);
                     if(r!=null && (r.contains('OK') || 
                                     r.contains('No Data!')||
+                                    r.contains('No data')||
                                     r.contains('Sorry'))){
                         if(false == validate){
                             return r
@@ -87,8 +88,13 @@ class Webget{
                             macher.size()
                             int failCount = 0
                             macher.each{
-                                def value = Integer.valueOf(it[0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5'));
-                                if(value < Integer.valueOf(url[-8..-1]) || value > Integer.valueOf(url[-8..-3]+'31')){
+                                String strValue = it[0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5')
+                                if(strValue.length()==8){
+                                    def value = Integer.valueOf(strValue);
+                                    if(value < Integer.valueOf(url[-8..-1]) || value > Integer.valueOf(url[-8..-3]+'31')){
+                                        failCount++
+                                    }
+                                }else{
                                     failCount++
                                 }
                             }

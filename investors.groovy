@@ -5,7 +5,7 @@ for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",co
 		startday 1
 		endYear 2020
 		endMonth 8
-		endDay 20
+		endDay 22
 		process{yyyyMmDd->
 			println ''
 		    print yyyyMmDd
