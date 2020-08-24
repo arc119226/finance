@@ -35,7 +35,7 @@ for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",co
 				}
 			}
 
-		    if(resultSql){
+		    if(resultSql && !resultSql.endsWith('VALUES ')){
 		    	new File('./investors/').mkdir()
 	     		new FileOutputStream("./investors/${item.type}${yyyyMmDd}.tmp").withWriter('UTF-8') { writer ->
 	        		writer << resultSql+';'

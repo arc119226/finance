@@ -85,7 +85,7 @@ static def process_download(){
 					}
 				}//process
 			}//run
-			if(resultSql){
+			if(resultSql || !resultSql.endsWith('VALUES ')){
 		    	new File('./monthly_closing_average_price/').mkdir()
 		 		new FileOutputStream("./monthly_closing_average_price/${security_code}.tmp").withWriter('UTF-8') { writer ->
 		    		writer << resultSql+';'

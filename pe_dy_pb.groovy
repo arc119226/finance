@@ -42,7 +42,7 @@ module.processor.ProcessorRunner.runDayByDay{
         	}
     	}
 
-	    if(resultSql){
+	    if(resultSql && !resultSql.endsWith('VALUES ')){
 	    	new File('./pe_dy_pb/').mkdir()
      		new FileOutputStream('./pe_dy_pb/'+yyyyMmDd+'.tmp').withWriter('UTF-8') { writer ->
         		writer << resultSql+';'

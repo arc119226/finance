@@ -59,7 +59,7 @@ stockCodes.each{it->
 					}//json
 				}//convert
 			}//process
-			if(resultSql){
+			if(resultSql && !resultSql.endsWith('VALUES ')){
 	    	new File('./monthly_trading_summary/').mkdir()
 		 		new FileOutputStream("./monthly_trading_summary/${security_code}.tmp").withWriter('UTF-8') { writer ->
 		    		writer << resultSql+';'

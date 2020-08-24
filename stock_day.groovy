@@ -56,7 +56,7 @@ stockCodes.each{it->
 		    	}//convert
 			}//process
 		}//run
-		if(resultSql){
+		if(resultSql && !resultSql.endsWith('VALUES ')){
 	    	new File('./stock_day/').mkdir()
 	 		new FileOutputStream('./stock_day/'+security_code+'.tmp').withWriter('UTF-8') { writer ->
 	    		writer << resultSql+';'
