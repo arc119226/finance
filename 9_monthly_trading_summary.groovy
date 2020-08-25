@@ -17,9 +17,9 @@ stockCodes.each{it->
 	def resultSql =''
 	if(!new File("./monthly_trading_summary/${security_code}.sql").exists()){
 		module.processor.ProcessorRunner.runYearByYear{
-			startYear Integer.valueOf(listing_day.toString()[0..3])
-			startMonth Integer.valueOf(listing_day.toString()[4..5])
-			startday Integer.valueOf(listing_day.toString()[6..7])
+			startYear 2020 //Integer.valueOf(listing_day.toString()[0..3])
+			startMonth 8//Integer.valueOf(listing_day.toString()[4..5])
+			startday 1//Integer.valueOf(listing_day.toString()[6..7])
 			endYear 2020
 			endMonth 8
 			endDay 1

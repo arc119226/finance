@@ -32,7 +32,7 @@ class SqlExecuter{
 		def sql = Sql.newInstance(jdbc,user,pass,driver)
 		new File(dir).list().each{ code ->
 		    def text = new File("${dir}/${code}").text
-		    if(!text.trim().endsWith('VALUES;')){
+		    if(text && !text.trim().endsWith('VALUES ;') && !test.trim().startsWith('!')){
 		        sql.execute(text)
 		        println code
 		    }

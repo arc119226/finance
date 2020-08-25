@@ -57,6 +57,9 @@ module.processor.ProcessorRunner.runDayByDay{
 module.db.SqlExecuter.execute{
     dir './pe_dy_pb'
 }
+module.io.FileBetch.execute{
+	clean './pe_dy_pb'
+}
 println 'import pe_dy_pb done'
 // FileUtils.cleanDirectory(new File('worth_sql'))
 // FileUtils.cleanDirectory(new File('worth_history'))

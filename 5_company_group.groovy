@@ -22,16 +22,16 @@ matcher.each{data->
 
 if(!sqlhead.endsWith('VALUES ')){
 	def currentTime = new Date().getTime();
-	new File('./stock_group/').mkdir()
-		new FileOutputStream('./stock_group/'+currentTime+'.sql').withWriter('UTF-8') { writer ->
+	new File('./company_group/').mkdir()
+		new FileOutputStream('./company_group/'+currentTime+'.sql').withWriter('UTF-8') { writer ->
 		writer << sqlhead+';'
 	}
 }
 module.db.SqlExecuter.execute{
-    dir './stock_group'
+    dir './company_group'
 }
 module.io.FileBetch.execute{
-    clean './stock_group'
+    clean './company_group'
 }
 
 def sql = Sql.newInstance('jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4',
@@ -53,7 +53,7 @@ groups.each{group->
 	def pattern2 = ~/GenLink2stk\('(.+)'\,.+\);/
 	def matcher2 = s2 =~ pattern2
 	matcher2.find()
-	def sqlhead2  = 'REPLACE INTO `stock_tw`.`stock_group` (`security_code`,`group_code`) VALUES '
+	def sqlhead2  = 'REPLACE INTO `stock_tw`.`company_stock` (`security_code`,`group_code`) VALUES '
 
 	matcher2.each{code->
 		def text = code[-1]
@@ -67,8 +67,8 @@ groups.each{group->
 	// println sqlhead
 	def currentTime = new Date().getTime();
 	if(!sqlhead2.endsWith('VALUES ')){
-		new File('./stock_group/').mkdir()
- 		new FileOutputStream('./stock_group/'+currentTime+'.sql').withWriter('UTF-8') { writer ->
+		new File('./company_group/').mkdir()
+ 		new FileOutputStream('./company_group/'+currentTime+'.sql').withWriter('UTF-8') { writer ->
     		writer << sqlhead2+';'
  		}
 	}
@@ -77,11 +77,11 @@ groups.each{group->
 sql.close()
 
 module.db.SqlExecuter.execute{
-    dir './stock_group'
+    dir './company_group'
 }
 module.io.FileBetch.execute{
-    clean './stock_group'
+    clean './company_group'
 }
-println 'import stock_group end'
+println 'import company_group end'
 // 
 

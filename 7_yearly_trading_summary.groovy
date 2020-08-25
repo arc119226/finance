@@ -38,12 +38,12 @@ stockCodes.each{
 						    				date_highest_price = String.format('%04d%02d%02d',year,Integer.valueOf(dtH[0]),Integer.valueOf(dtH[1]))
 						    		}
 						    		def date_lowest_price =null
-						    		def lowest_price = _data[6]
+						    		def lowest_price = _data[6].replaceAll(',','')
 						    		if(_data[7]){
 						    			def dtL = _data[7].split("/")
 						    			date_lowest_price = String.format('%04d%02d%02d',year,Integer.valueOf(dtL[0]),Integer.valueOf(dtL[1]))
 						    		}
-						    		def average_closing_price = _data[8]
+						    		def average_closing_price = _data[8].replaceAll(',','')
 						    		 if(resultSql.endsWith('VALUES ')){
 						    		 	if(date_lowest_price && date_lowest_price){
 						    				resultSql+= "\r\n('${year}', '${trade_volume}', '${trade_value}', '${transaction}', '${highest_price}', ${date_highest_price}, '${lowest_price}', ${date_lowest_price}, '${average_closing_price}', '${security_code}')"

@@ -37,7 +37,7 @@ class Webget{
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
     }//end static
     String url=null,errorLog='error.txt',decode=null
-    int retry=3,sleeptime=100
+    int retry=100,sleeptime=25
     boolean validate=false
 
     def url(String url){
@@ -75,6 +75,8 @@ class Webget{
                 }else{
                     def r=org.apache.commons.io.IOUtils.toString(is, decode);
                     if(r!=null && (r.contains('OK') || 
+                                    r.contains('Data Not Found!')||
+                                    r.contains('please retry!')||
                                     r.contains('No Data!')||
                                     r.contains('No data')||
                                     r.contains('Sorry'))){

@@ -18,14 +18,12 @@ https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&date=
 https://www.twse.com.tw/exchangeReport/FMSRFK?response=json&lang=en&date=19920101&stockNo=1101
 年度成交資訊 O
 https://www.twse.com.tw/exchangeReport/FMNPTK?response=json&lang=en&stockNo=1101
-
-
-每分鐘委託成交統計
+每分鐘委託成交統計 O
 https://www.twse.com.tw/exchangeReport/MI_5MINS?response=json&lang=en&date=20041015&stockNo=1101
+
 大盤ALL
 https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date=20100104&type=ALL
 當日融券賣出與借券賣出成交量值
 https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=20080926
-
 外資陸資持股比例
 https://www.twse.com.tw/fund/MI_QFIIS?response=json&date=20200814&selectType=ALLBUT0999
