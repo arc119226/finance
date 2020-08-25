@@ -1,3 +1,6 @@
+/**
+初次下載stock_day後跑這個 之後更新跑rankupdate
+*/
 @Grab(group='commons-io', module='commons-io', version='2.5')
 @Grab('mysql:mysql-connector-java:5.1.39')
 @GrabConfig(systemClassLoader=true)

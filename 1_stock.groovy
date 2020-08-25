@@ -1,4 +1,5 @@
 /**
+ 每日一次
  1.download stock info json
  2.convert json to sql
  3.import sql

@@ -1,3 +1,6 @@
+/**
+每日同步一次
+*/
 @Grab('mysql:mysql-connector-java:5.1.39')
 @GrabConfig(systemClassLoader=true)
 import groovy.sql.Sql
@@ -65,9 +68,9 @@ stockCodes.each{
 	 				new File('./statistics_trade_per_minute/'+yyyyMmDd+'/'+security_code+'.tmp').renameTo('./statistics_trade_per_minute/'+yyyyMmDd+'/'+security_code+'.sql')
 	 				//print ', save sql done'
 				}
-				println security_code+'_'+yyyyMmDd
+				print ' '+security_code+'_'+yyyyMmDd
 			}else{
-				println security_code+'_'+yyyyMmDd+' already done'
+				print security_code+'_'+yyyyMmDd+' done. '
 			}
 		}
 	}

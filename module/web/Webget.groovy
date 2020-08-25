@@ -39,7 +39,8 @@ class Webget{
     String url=null,errorLog='error.txt',decode=null
     int retry=100,sleeptime=25
     boolean validate=false
-
+    boolean validatePb=false
+    boolean validateInv=false
     def url(String url){
         this.url=url
     }
@@ -57,6 +58,12 @@ class Webget{
     }
     def validate(boolean validate){
         this.validate=validate
+    }
+    def validatePb(boolean validatePb){
+        this.validatePb=validatePb
+    }
+    def validateInv(boolean validateInv){
+        this.validateInv=validateInv
     }
 
     def openConnection(){
@@ -79,10 +86,11 @@ class Webget{
                                     r.contains('please retry!')||
                                     r.contains('No Data!')||
                                     r.contains('No data')||
+                                    r.contains('No data found.')||
                                     r.contains('Sorry'))){
-                        if(false == validate){
+                        if(false == validate || false == validatePb){
                             return r
-                        }else{
+                        }else if(validate){
                             //need strict validate
                             def pattern = ~/(\d+\/\d+\/\d+)/
                             def macher = r =~ pattern
@@ -102,6 +110,20 @@ class Webget{
                             }
                             if(failCount == 0 && !r.contains('null')){
                                 return r
+                            }
+                        }else if(validatePb){
+                            def yyyyMmDd = url[-8..-1];
+                            if(r.contains('"date":"'+yyyyMmDd+'"')){
+                                return r
+                            }else{
+                                failCount++
+                            }
+                        }else if(validateInv){
+                            def yyyyMmDd = url[-8..-1];
+                            if(r.contains('"date":"'+yyyyMmDd+'"')){
+                                return r
+                            }else{
+                                failCount++
                             }
                         }
                     } 

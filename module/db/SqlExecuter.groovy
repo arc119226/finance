@@ -28,11 +28,16 @@ class SqlExecuter{
 
 	def insertOrReplace(){
 		println dir
+		println jdbc
+		println user
+		println pass
+		println driver
 		new File("${dir}").mkdir()
 		def sql = Sql.newInstance(jdbc,user,pass,driver)
 		new File(dir).list().each{ code ->
+			println code
 		    def text = new File("${dir}/${code}").text
-		    if(text && !text.trim().endsWith('VALUES ;') && !test.trim().startsWith('!')){
+		    if(text && !text.trim().endsWith('VALUES ;') && !text.trim().startsWith('!')){
 		        sql.execute(text)
 		        println code
 		    }

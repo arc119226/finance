@@ -1,3 +1,4 @@
+//一年跑一次
 @Grab('mysql:mysql-connector-java:5.1.39')
 @GrabConfig(systemClassLoader=true)
 import groovy.sql.Sql

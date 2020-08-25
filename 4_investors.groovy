@@ -1,22 +1,26 @@
+/**
+ 每日一次
+*/
 for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",code:"TWT44U"]]) {
 	module.processor.ProcessorRunner.runDayByDay{
 		startYear 2020
 		startMonth 8
-		startday 1
+		startday 25
 		endYear 2020
 		endMonth 8
-		endDay 22
+		endDay 25
 		process{yyyyMmDd->
 			println ''
 		    print yyyyMmDd
 			def returnJson = module.web.Webget.download{
 			     url "https://www.twse.com.tw/fund/${item.code}?response=json&lang=en&date=${yyyyMmDd}"
 			     decode 'utf-8'
+			     validateInv true
 			}
 			def resultSql = module.parser.JsonConvert.convert{
 			    input returnJson
 				parseRule {json->
-				    if(json.stat != 'OK'){
+				    if(json.stat != 'OK' && json.date !="${yyyyMmDd}"){
 			           return null
 			        }
 			        def fields = json.fields.collect(fieldNormalize)
@@ -50,7 +54,7 @@ for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",co
 module.db.SqlExecuter.execute{
     dir './investors'
 }
-module.io.FileBetch.execute{
-	clean './investors'
-}
+// module.io.FileBetch.execute{
+// 	clean './investors'
+// }
 println 'import investors done'
