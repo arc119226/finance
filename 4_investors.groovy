@@ -57,5 +57,6 @@ module.db.SqlExecuter.execute{
 }
 module.io.FileBetch.execute{
 	clean './investors'
+	delete './investors'
 }
 println 'import investors done'

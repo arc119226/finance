@@ -55,11 +55,11 @@ stockCodes.each{it->
 				currentRank = 0
 			}
 			def updateResult = sql.executeUpdate("update stock_day set updown_times = :upDownTimes,last_updown_times = :lastUpDownTimes where id= :id",upDownTimes:currentRank,lastUpDownTimes:lastRank,id:dt.id)
-			println updateResult+' '+dt.id
+			print '*'
 		}
 	}
 }
 
-println 'update rank done'
+println '.'
 
 sql.close()

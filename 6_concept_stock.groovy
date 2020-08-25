@@ -77,6 +77,7 @@ module.db.SqlExecuter.execute{
 }
 module.io.FileBetch.execute{
     clean './concept_stock'
+    delete './concept_stock'
 }
 println 'import concept_stock end'
 

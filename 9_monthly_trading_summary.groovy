@@ -78,7 +78,8 @@ stockCodes.each{it->
 module.db.SqlExecuter.execute{
     dir './monthly_trading_summary'
 }
-// module.io.FileBetch.execute{
-// 	clean './monthly_trading_summary'
-// }
+module.io.FileBetch.execute{
+	clean './monthly_trading_summary'
+	delete './monthly_trading_summary'
+}
 println 'import monthly_trading_summary done'

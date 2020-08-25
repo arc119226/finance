@@ -107,6 +107,7 @@ static def process_download(){
 	}
 	module.io.FileBetch.execute{
 		clean './monthly_closing_average_price'
+		delete './monthly_closing_average_price'
 	}
 	println 'import monthly_closing_average_price done'
 }

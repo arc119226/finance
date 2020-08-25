@@ -1,4 +1,4 @@
-/**
+ /**
  每日一次
  1.download stock info json
  2.convert json to sql
@@ -98,5 +98,6 @@ module.db.SqlExecuter.execute{
 }
 module.io.FileBetch.execute{
     clean './stocklist_sql'
+    delete './stocklist_sql' 'tw_stock.txt'
 }
 println 'import stocklist end'

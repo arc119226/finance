@@ -80,5 +80,6 @@ stockCodes.each{
 // }
 // module.io.FileBetch.execute{
 // 	clean './statistics_trade_per_minute'
+// 	delete './statistics_trade_per_minute'
 // }
 // println 'import statistics_trade_per_minute done'

@@ -41,6 +41,7 @@ class Webget{
     boolean validate=false
     boolean validatePb=false
     boolean validateInv=false
+    boolean validateShortSell=false
     def url(String url){
         this.url=url
     }
@@ -64,6 +65,9 @@ class Webget{
     }
     def validateInv(boolean validateInv){
         this.validateInv=validateInv
+    }
+    def validateShortSell(boolean validateShortSell){
+        this.validateShortSell=validateShortSell
     }
 
     def openConnection(){
@@ -119,6 +123,13 @@ class Webget{
                                 failCount++
                             }
                         }else if(validateInv){
+                            def yyyyMmDd = url[-8..-1];
+                            if(r.contains('"date":"'+yyyyMmDd+'"')){
+                                return r
+                            }else{
+                                failCount++
+                            }
+                        }else if(validateShortSell){
                             def yyyyMmDd = url[-8..-1];
                             if(r.contains('"date":"'+yyyyMmDd+'"')){
                                 return r

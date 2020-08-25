@@ -5,20 +5,20 @@
  3.import sql
 */
 module.processor.ProcessorRunner.runDayByDay{
-	startYear 2020
-	startMonth 8
-	startday 25
+	startYear 2008
+	startMonth 9
+	startday 26
 	endYear 2020
 	endMonth 8
 	endDay 25
 	process{yyyyMmDd->
-	    if(new File('./pe_dy_pb/'+yyyyMmDd+'.sql').exists()){
+	    if(new File('./short_sales_volume_and_value/'+yyyyMmDd+'.sql').exists()){
 	    	print '>'
 	    }else{
 			    def returnJson = module.web.Webget.download{
-			         url "https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&lang=en&date=${yyyyMmDd}"
+			         url "https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=${yyyyMmDd}"
 			         decode 'utf-8'
-			         validatePb true
+			         validateShortSell true
 			    }
 
 				def resultSql = module.parser.JsonConvert.convert{
@@ -29,7 +29,7 @@ module.processor.ProcessorRunner.runDayByDay{
 			            }
 			            def fields = json.fields.collect(fieldNormalize)
 
-			            def _sql = "REPLACE INTO `stock_tw`.`pe_dy_pb` (`${fields.join('`,`')}`,`traded_day`) VALUES "
+			            def _sql = "REPLACE INTO `stock_tw`.`short_sales_volume_and_value` (`security_code`,`securities_lending_volume`,`securities_lending_value`,`borrow_volume`,`borrow_value`,`traded_day`) VALUES "
 			            
 			            for(int i=0;i<json.data.size;i++){
 			               def _data = json.data[i].collect(valueNormalise).join("','");
@@ -44,23 +44,23 @@ module.processor.ProcessorRunner.runDayByDay{
 		    	}
 
 			    if(resultSql && !resultSql.endsWith('VALUES ')){
-			    	new File('./pe_dy_pb/').mkdir()
-		     		new FileOutputStream('./pe_dy_pb/'+yyyyMmDd+'.tmp').withWriter('UTF-8') { writer ->
+			    	new File('./short_sales_volume_and_value/').mkdir()
+		     		new FileOutputStream('./short_sales_volume_and_value/'+yyyyMmDd+'.tmp').withWriter('UTF-8') { writer ->
 		        		writer << resultSql+';'
 		     		}
-		     		new File('./pe_dy_pb/'+yyyyMmDd+'.tmp').renameTo('./pe_dy_pb/'+yyyyMmDd+'.sql')
-					println '*'
+		     		new File('./short_sales_volume_and_value/'+yyyyMmDd+'.tmp').renameTo('./short_sales_volume_and_value/'+yyyyMmDd+'.sql')
+					print '*'
 				}
 	    }
 	}
 }
 
 module.db.SqlExecuter.execute{
-    dir './pe_dy_pb'
+    dir './short_sales_volume_and_value'
 }
 module.io.FileBetch.execute{
-	clean './pe_dy_pb'
-	delete './pe_dy_pb'
+	clean './short_sales_volume_and_value'
+	delete './short_sales_volume_and_value'
 }
-println 'import pe_dy_pb done'
+println 'import short_sales_volume_and_value done'
 

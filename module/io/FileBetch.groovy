@@ -27,6 +27,15 @@ class FileBetch{
 				FileUtils.cleanDirectory(new File("${clean}"))
 			}
 		}
+		if(delete){
+			if([Collection, Object[]].any { it.isAssignableFrom(delete.getClass()) }){
+				delete.each{it->
+					new File(it).delete()
+				}
+			}else{
+				new File("${clean}").delete()
+			}
+		}
 	}
 	def static execute(@DelegatesTo(FileBetch) Closure block){
 		FileBetch m = new FileBetch()

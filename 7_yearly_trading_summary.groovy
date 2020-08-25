@@ -75,5 +75,6 @@ module.db.SqlExecuter.execute{
 }
 module.io.FileBetch.execute{
 	clean './yearly_trading_summary'
+	delete './yearly_trading_summary'
 }
 println 'import yearly_trading_summary done'
