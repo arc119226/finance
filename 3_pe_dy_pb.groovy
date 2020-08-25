@@ -12,17 +12,14 @@ module.processor.ProcessorRunner.runDayByDay{
 	endMonth 8
 	endDay 25
 	process{yyyyMmDd->
-		println ''
-	    print yyyyMmDd
 	    if(new File('./pe_dy_pb/'+yyyyMmDd+'.sql').exists()){
-	    	println yyyyMmDd+' already done'
+	    	print '>'
 	    }else{
 			    def returnJson = module.web.Webget.download{
 			         url "https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&lang=en&date=${yyyyMmDd}"
 			         decode 'utf-8'
 			         validatePb true
 			    }
-			    print ' fetch api done'
 
 				def resultSql = module.parser.JsonConvert.convert{
 		        	input returnJson
@@ -42,7 +39,6 @@ module.processor.ProcessorRunner.runDayByDay{
 			                   _sql+="\r\n,('${_data}','${yyyyMmDd}')"
 			               }
 			            }
-			            print ', parse json done'
 			            return _sql
 		        	}
 		    	}
@@ -53,8 +49,7 @@ module.processor.ProcessorRunner.runDayByDay{
 		        		writer << resultSql+';'
 		     		}
 		     		new File('./pe_dy_pb/'+yyyyMmDd+'.tmp').renameTo('./pe_dy_pb/'+yyyyMmDd+'.sql')
-		     		print ', save sql done'
-					println ''
+					println '*'
 				}
 	    }
 	}
@@ -63,9 +58,9 @@ module.processor.ProcessorRunner.runDayByDay{
 module.db.SqlExecuter.execute{
     dir './pe_dy_pb'
 }
-// module.io.FileBetch.execute{
-// 	clean './pe_dy_pb'
-// }
+module.io.FileBetch.execute{
+	clean './pe_dy_pb'
+}
 println 'import pe_dy_pb done'
 // FileUtils.cleanDirectory(new File('worth_sql'))
 // FileUtils.cleanDirectory(new File('worth_history'))

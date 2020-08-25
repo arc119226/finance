@@ -10,16 +10,17 @@ for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",co
 		endMonth 8
 		endDay 25
 		process{yyyyMmDd->
-			println ''
-		    print yyyyMmDd
-			def returnJson = module.web.Webget.download{
-			     url "https://www.twse.com.tw/fund/${item.code}?response=json&lang=en&date=${yyyyMmDd}"
-			     decode 'utf-8'
-			     validateInv true
-			}
-			def resultSql = module.parser.JsonConvert.convert{
-			    input returnJson
-				parseRule {json->
+			if(new File('./investors/${item.type}${yyyyMmDd}.sql').exists()){
+				print '>'
+			}else{
+				def returnJson = module.web.Webget.download{
+			    	url "https://www.twse.com.tw/fund/${item.code}?response=json&lang=en&date=${yyyyMmDd}"
+			    	decode 'utf-8'
+			    	validateInv true
+				}
+				def resultSql = module.parser.JsonConvert.convert{
+			    	input returnJson
+					parseRule {json->
 				    if(json.stat != 'OK' && json.date !="${yyyyMmDd}"){
 			           return null
 			        }
@@ -34,18 +35,18 @@ for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",co
 				            _sql+="\r\n,('${_data}','${yyyyMmDd}','${item.type}')"
 				        }
 				     }
-				     print ', parse json done'
 				     return _sql
+					}
 				}
-			}
 
-		    if(resultSql && !resultSql.endsWith('VALUES ')){
-		    	new File('./investors/').mkdir()
-	     		new FileOutputStream("./investors/${item.type}${yyyyMmDd}.tmp").withWriter('UTF-8') { writer ->
-	        		writer << resultSql+';'
-	     		}
-	     		new File("./investors/${item.type}${yyyyMmDd}.tmp").renameTo("./investors/${item.type}${yyyyMmDd}.sql")
-	     		print ', save sql done'
+		    	if(resultSql && !resultSql.endsWith('VALUES ')){
+		    		new File('./investors/').mkdir()
+	     			new FileOutputStream("./investors/${item.type}${yyyyMmDd}.tmp").withWriter('UTF-8') { writer ->
+	        			writer << resultSql+';'
+	     			}
+	     			new File("./investors/${item.type}${yyyyMmDd}.tmp").renameTo("./investors/${item.type}${yyyyMmDd}.sql")
+	     			print '*'
+				}
 			}
 		}
 	}
@@ -54,7 +55,7 @@ for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",co
 module.db.SqlExecuter.execute{
     dir './investors'
 }
-// module.io.FileBetch.execute{
-// 	clean './investors'
-// }
+module.io.FileBetch.execute{
+	clean './investors'
+}
 println 'import investors done'

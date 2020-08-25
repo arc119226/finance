@@ -96,9 +96,9 @@ static def process_download(){
 		 		new File("./monthly_closing_average_price/${security_code}.tmp").renameTo("./monthly_closing_average_price/${security_code}.sql")
 		 		//print ', save sql done'
 			}
-			println security_code
+			print '*'
 		}else{
-			println "${security_code} already done."
+			print '>'
 		}
 	}
 

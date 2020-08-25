@@ -64,10 +64,10 @@ stockCodes.each{
 				writer << resultSql+';'
 			}
 			new File("./yearly_trading_summary/${security_code}.tmp").renameTo("./yearly_trading_summary/${security_code}.sql")
-			println "${security_code}"
+			print '*'
 		}
 	}else{
-			println "${security_code} already done."
+			println ">"
 	}
 }
 module.db.SqlExecuter.execute{

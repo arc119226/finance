@@ -67,9 +67,9 @@ stockCodes.each{it->
 	 		new File('./stock_day/'+security_code+'.tmp').renameTo('./stock_day/'+security_code+'.sql')
 	 		//print ', save sql done'
 		}
-		println security_code
+		print '*'
 	}else{
-		println "${security_code} already done."
+		print ">"
 	}
 }//each stock
 module.db.SqlExecuter.execute{
