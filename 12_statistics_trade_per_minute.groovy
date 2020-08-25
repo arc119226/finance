@@ -68,9 +68,9 @@ stockCodes.each{
 	 				new File('./statistics_trade_per_minute/'+yyyyMmDd+'/'+security_code+'.tmp').renameTo('./statistics_trade_per_minute/'+yyyyMmDd+'/'+security_code+'.sql')
 	 				//print ', save sql done'
 				}
-				print ' '+security_code+'_'+yyyyMmDd
+				print '*'
 			}else{
-				print security_code+'_'+yyyyMmDd+' done. '
+				print '>'
 			}
 		}
 	}
