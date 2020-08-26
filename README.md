@@ -26,3 +26,22 @@ https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20100104&sto
 資料起始日200050902
 
 https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&date=20050902&lang=en
+
+自營商當日買賣超
+
+資料起始日20041217
+
+https://www.twse.com.tw/fund/TWT43U?response=json&date=20041217
+
+投信當日買賣超
+
+資料起始日20041217
+
+https://www.twse.com.tw/fund/TWT44U?response=json&date=20041217
+
+外資當日買賣超
+
+資料起始日20041217
+
+https://www.twse.com.tw/fund/TWT38U?response=json&date=20041217
+
