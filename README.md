@@ -16,58 +16,58 @@ https://isin.twse.com.tw/isin/C_public.jsp?strMode=4
 
 資料起始日20100104
 
-https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20100104&stockNo=1101
+https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=csv&date=20100104&stockNo=1101
 
 本益比 淨值 殖利率
 
 資料起始日200050902
 
-https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&date=20050902
+https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=csv&selectType=ALL&date=20050902
 
 自營商當日買賣超
 
 資料起始日20041217
 
-https://www.twse.com.tw/fund/TWT43U?response=json&date=20041217
+https://www.twse.com.tw/fund/TWT43U?response=csv&date=20041217
 
 投信當日買賣超
 
 資料起始日20041217
 
-https://www.twse.com.tw/fund/TWT44U?response=json&date=20041217
+https://www.twse.com.tw/fund/TWT44U?response=csv&date=20041217
 
 外資當日買賣超
 
 資料起始日20041217
 
-https://www.twse.com.tw/fund/TWT38U?response=json&date=20041217
+https://www.twse.com.tw/fund/TWT38U?response=csv&date=20041217
 
 個股日收盤價及月平均價
 
 資料起始日19990105
 
-https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&date=19990101&stockNo=1101
+https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=csv&date=19990101&stockNo=1101
 
 月成交資訊
 
 資料起始日19920101
 
-https://www.twse.com.tw/exchangeReport/FMSRFK?response=json&date=19920101&stockNo=1101
+https://www.twse.com.tw/exchangeReport/FMSRFK?response=csv&date=19920101&stockNo=1101
 
 年度成交資訊
 
 資料起始1991
 
-https://www.twse.com.tw/exchangeReport/FMNPTK?response=json&stockNo=1101
+https://www.twse.com.tw/exchangeReport/FMNPTK?response=csv&stockNo=1101
 
 當日融券賣出與借券賣出成交量值
 
 資料起始日20080926
 
-https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=20080926
+https://www.twse.com.tw/exchangeReport/TWTASU?response=csv&date=20080926
 
 外資陸資持股比例
 
 資料起始日20040211
 
-https://www.twse.com.tw/fund/MI_QFIIS?response=json&date=20040211&selectType=ALLBUT0999
+https://www.twse.com.tw/fund/MI_QFIIS?response=csv&date=20040211&selectType=ALLBUT0999
