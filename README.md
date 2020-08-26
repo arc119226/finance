@@ -22,7 +22,7 @@ https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20100104&sto
 
 資料起始日200050902
 
-https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&date=20050902&lang=en
+https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&date=20050902
 
 自營商當日買賣超
 
@@ -46,10 +46,22 @@ https://www.twse.com.tw/fund/TWT38U?response=json&date=20041217
 
 資料起始日19990105
 
-https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&date=19990101&stockNo=1101
+https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&date=19990101&stockNo=1101
 
 月成交資訊
 
 資料起始日19920101
 
-https://www.twse.com.tw/exchangeReport/FMSRFK?response=json&lang=en&date=19920101&stockNo=1101
+https://www.twse.com.tw/exchangeReport/FMSRFK?response=json&date=19920101&stockNo=1101
+
+年度成交資訊
+
+資料起始1991
+
+https://www.twse.com.tw/exchangeReport/FMNPTK?response=json&stockNo=1101
+
+當日融券賣出與借券賣出成交量值
+
+資料起始日20080926
+
+https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=20080926
