@@ -2,10 +2,7 @@
 這是一個用groovy 寫的工具包
 目的是將台灣證卷交易資料爬回本端dbdb 
 
-引月的資料
-
-
-
+爬資料的API
 
 上市股票資訊
 
@@ -45,3 +42,8 @@ https://www.twse.com.tw/fund/TWT44U?response=json&date=20041217
 
 https://www.twse.com.tw/fund/TWT38U?response=json&date=20041217
 
+個股日收盤價及月平均價
+
+資料起始日19990105
+
+https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&date=19990101&stockNo=1101
