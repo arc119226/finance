@@ -111,3 +111,11 @@ https://www.twse.com.tw/exchangeReport/MI_5MINS?response=csv&&date=20041015&stoc
 資料起始日20010101
 
 https://www.twse.com.tw/exchangeReport/MI_MARGN?response=csv&selectType=ALL&date=20010101
+
+
+16
+發行量加權股價指數歷史資料
+
+資料起始日19900101
+
+https://www.twse.com.tw/indicesReport/MI_5MINS_HIST?response=csv&date=19990101
