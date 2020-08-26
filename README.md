@@ -103,3 +103,10 @@ https://www.twse.com.tw/fund/MI_QFIIS_cat?response=csv&date=20001207
 資料起始日20041015
 
 https://www.twse.com.tw/exchangeReport/MI_5MINS?response=csv&&date=20041015&stockNo=1101
+
+15
+信用交易統計 與 融資融券彙總
+
+資料起始日20010101
+
+https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=ALL&lang=en&date=20010101
