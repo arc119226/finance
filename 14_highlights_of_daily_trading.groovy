@@ -6,7 +6,7 @@
 */
 module.processor.ProcessorRunner.runMonthByMonth{
 	startYear Calendar.getInstance().get(Calendar.YEAR)
-	startMonth  Calendar.getInstance().get(Calendar.MONTH)+1
+	startMonth Calendar.getInstance().get(Calendar.MONTH)+1
 	startday 1
 	endYear Calendar.getInstance().get(Calendar.YEAR)
 	endMonth Calendar.getInstance().get(Calendar.MONTH)+1
