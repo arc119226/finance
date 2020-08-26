@@ -1,13 +1,10 @@
 /**
 初次下載stock_day後跑這個 之後更新跑rankupdate
 */
-@Grab(group='commons-io', module='commons-io', version='2.5')
-@Grab('mysql:mysql-connector-java:5.1.39')
-@GrabConfig(systemClassLoader=true)
-import groovy.sql.Sql
+
 def sql = module.db.SqlExecuter.dbConnection{}
 def stockCodes = sql.rows("select stock.security_code from stock")
-sql.close()
+
 println stockCodes.size()
 
 stockCodes.each{it->

@@ -15,6 +15,7 @@ call groovy 13_short_sales_volume_and_value.groovy
 call groovy 14_highlights_of_daily_trading.groovy
 call groovy 15_foreign_mainland_area_investors_trading_and_shareholding.groovy
 call groovy 16_daily_foreign_shareholding_by_industrial.groovy
+call groovy 17_margin_transactionl.groovy
 
 
 set endtime=%time%

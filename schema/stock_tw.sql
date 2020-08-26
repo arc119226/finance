@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `company_group` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_code` (`group_code`),
   UNIQUE KEY `group_name` (`group_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=409 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='集團股分類目錄';
+) ENGINE=InnoDB AUTO_INCREMENT=477 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='集團股分類目錄';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.company_stock 結構
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `company_stock` (
   `security_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '證卷代號',
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_code_security_code` (`group_code`,`security_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=1637 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票與集團代碼';
+) ENGINE=InnoDB AUTO_INCREMENT=1964 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票與集團代碼';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.concept_group 結構
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `concept_group` (
   UNIQUE KEY `concept_code_concept_name` (`group_code`,`group_name`),
   UNIQUE KEY `concept_code` (`group_code`),
   UNIQUE KEY `concept_name` (`group_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1681 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='概念股類別目錄';
+) ENGINE=InnoDB AUTO_INCREMENT=2521 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='概念股類別目錄';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.concept_stock 結構
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `concept_stock` (
   `security_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '證卷代號',
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_code_security_code` (`group_code`,`security_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=48333 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='概念股代碼與股票代碼';
+) ENGINE=InnoDB AUTO_INCREMENT=67671 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='概念股代碼與股票代碼';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.daily_foreign_shareholding_by_industrial 結構
@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS `highlights_of_daily_trading` (
   `change` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '漲跌點數',
   `traded_day` int(11) NOT NULL DEFAULT 0 COMMENT '成交日期',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `date_traded_day` (`date`,`traded_day`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='市場成交資訊';
+  UNIQUE KEY `date` (`date`)
+) ENGINE=InnoDB AUTO_INCREMENT=5447 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='市場成交資訊';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.industry_mapping 結構
@@ -129,7 +129,46 @@ CREATE TABLE IF NOT EXISTS `investors` (
   `type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT 'FD=外資 D=自營商 SITC=投信',
   PRIMARY KEY (`id`),
   UNIQUE KEY `security_code_traded_day_type` (`security_code`,`traded_day`,`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='三大法人買賣超';
+) ENGINE=InnoDB AUTO_INCREMENT=4859575 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='三大法人買賣超';
+
+-- 取消選取資料匯出。
+-- 傾印  表格 stock_tw.margin_transactions_all 結構
+CREATE TABLE IF NOT EXISTS `margin_transactions_all` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `security_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '股票代號',
+  `margin_purchase` decimal(15,2) DEFAULT NULL COMMENT '融資買進',
+  `margin_sales` decimal(15,2) DEFAULT NULL COMMENT '融資賣出',
+  `cash_redemption` decimal(15,2) DEFAULT NULL COMMENT '融資現金償還',
+  `balance_of_previous_day` decimal(15,2) DEFAULT NULL COMMENT '融資前日餘額',
+  `balance_of_the_day` decimal(15,2) DEFAULT NULL COMMENT '融資今日餘額',
+  `quota` decimal(15,2) DEFAULT NULL COMMENT '限額',
+  `short_covering` decimal(15,2) DEFAULT NULL COMMENT '融卷買進',
+  `short_sale` decimal(15,2) DEFAULT NULL COMMENT '融卷賣出',
+  `stock_redemption` decimal(15,2) DEFAULT NULL COMMENT '現券償還',
+  `short_balance_of_previous_day` decimal(15,2) DEFAULT NULL COMMENT '融卷前日餘額',
+  `short_balance_of_the_day` decimal(15,2) DEFAULT NULL COMMENT '融卷今日餘額',
+  `short_quota` decimal(15,2) DEFAULT NULL COMMENT '限額',
+  `offsetting_of_margin_purchases_and_short_sales` decimal(15,2) DEFAULT NULL COMMENT '資券互抵',
+  `note` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '註記',
+  `traded_day` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `security_code_traded_day` (`security_code`,`traded_day`)
+) ENGINE=InnoDB AUTO_INCREMENT=3841025 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='融資融券彙總 (全部)';
+
+-- 取消選取資料匯出。
+-- 傾印  表格 stock_tw.margin_transaction_summary 結構
+CREATE TABLE IF NOT EXISTS `margin_transaction_summary` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `item` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '項目',
+  `margin_purchase_short_covering` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '買進',
+  `margin_saleshort_sale` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '賣出',
+  `cash_redemption_stock_redemption` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '現金(券)償還',
+  `balance_of_previous_day` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '前日餘額',
+  `balance_of_the_day` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '今日餘額',
+  `traded_day` int(11) NOT NULL DEFAULT 0 COMMENT '交易日其',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `item_traded_day` (`item`,`traded_day`)
+) ENGINE=InnoDB AUTO_INCREMENT=14788 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='信用交易統計';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.monthly_closing_average_price 結構
@@ -141,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `monthly_closing_average_price` (
   `security_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '證卷代號',
   PRIMARY KEY (`id`),
   UNIQUE KEY `date_traded_day_security_code` (`date`,`traded_day`,`security_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=5311169 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='美日收盤價及每月均價';
+) ENGINE=InnoDB AUTO_INCREMENT=5603967 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='美日收盤價及每月均價';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.monthly_trading_summary 結構
@@ -159,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `monthly_trading_summary` (
   `turnover_ratio` decimal(15,2) NOT NULL COMMENT '週轉率(%)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `security_code_year_month` (`security_code`,`year`,`month`)
-) ENGINE=InnoDB AUTO_INCREMENT=260909 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='個股月成交資訊';
+) ENGINE=InnoDB AUTO_INCREMENT=385410 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='個股月成交資訊';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.pe_dy_pb 結構
@@ -188,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `short_sales_volume_and_value` (
   `borrow_value` decimal(15,2) DEFAULT 0.00 COMMENT '借卷賣出金額',
   PRIMARY KEY (`id`),
   UNIQUE KEY `security_code_traded_day` (`security_code`,`traded_day`)
-) ENGINE=InnoDB AUTO_INCREMENT=2674011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='當日融券賣出與借券賣出成交量值';
+) ENGINE=InnoDB AUTO_INCREMENT=2694577 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='當日融券賣出與借券賣出成交量值';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.statistics_trade_per_minute 結構
@@ -229,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `stock` (
   KEY `stock_type` (`stock_type`),
   KEY `stock_category` (`stock_category`),
   KEY `product_type` (`product_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=466566 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票基本資訊';
+) ENGINE=InnoDB AUTO_INCREMENT=687678 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='股票基本資訊';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.stock_day 結構
@@ -254,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `stock_day` (
   KEY `traded_day` (`traded_day`),
   KEY `security_code` (`security_code`),
   KEY `change` (`change`)
-) ENGINE=InnoDB AUTO_INCREMENT=8124387 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='盤後 日交易量';
+) ENGINE=InnoDB AUTO_INCREMENT=8441774 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='盤後 日交易量';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.yearly_trading_summary 結構
@@ -272,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `yearly_trading_summary` (
   `security_code` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '證卷代碼',
   PRIMARY KEY (`id`),
   UNIQUE KEY `year_security_code` (`year`,`security_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=182608 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='年度成交資訊';
+) ENGINE=InnoDB AUTO_INCREMENT=367270 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='年度成交資訊';
 
 -- 取消選取資料匯出。
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

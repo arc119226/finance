@@ -45,6 +45,7 @@ class Webget{
     boolean validateHighLight=false
     boolean validateForeign=false
     boolean validateIndustrial=false
+    boolean validateMarginTransactionl=false
     def url(String url){
         this.url=url
     }
@@ -80,6 +81,9 @@ class Webget{
     }
     def validateIndustrial(boolean validateIndustrial){
         this.validateIndustrial=validateIndustrial
+    }
+    def validateMarginTransactionl(boolean validateMarginTransactionl){
+        this.validateMarginTransactionl=validateMarginTransactionl
     }
 
     def openConnection(){
@@ -163,6 +167,13 @@ class Webget{
                                 failCount++
                             }
                         }else if(validateIndustrial){
+                            def yyyyMmDd = url[-8..-1];
+                            if(r.contains('"date":"'+yyyyMmDd+'"')){
+                                return r
+                            }else{
+                                failCount++
+                            }
+                        }else if(validateMarginTransactionl){
                             def yyyyMmDd = url[-8..-1];
                             if(r.contains('"date":"'+yyyyMmDd+'"')){
                                 return r
