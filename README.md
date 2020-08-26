@@ -65,3 +65,9 @@ https://www.twse.com.tw/exchangeReport/FMNPTK?response=json&stockNo=1101
 資料起始日20080926
 
 https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=20080926
+
+外資陸資持股比例
+
+資料起始日20040211
+
+https://www.twse.com.tw/fund/MI_QFIIS?response=json&date=20040211&selectType=ALLBUT0999
