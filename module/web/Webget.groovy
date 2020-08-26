@@ -44,6 +44,7 @@ class Webget{
     boolean validateShortSell=false
     boolean validateHighLight=false
     boolean validateForeign=false
+    boolean validateIndustrial=false
     def url(String url){
         this.url=url
     }
@@ -76,6 +77,9 @@ class Webget{
     }
     def validateForeign(boolean validateForeign){
         this.validateForeign=validateForeign
+    }
+    def validateIndustrial(boolean validateIndustrial){
+        this.validateIndustrial=validateIndustrial
     }
 
     def openConnection(){
@@ -152,6 +156,13 @@ class Webget{
                                 failCount++
                             }
                         }else if(validateForeign){
+                            def yyyyMmDd = url[-8..-1];
+                            if(r.contains('"date":"'+yyyyMmDd+'"')){
+                                return r
+                            }else{
+                                failCount++
+                            }
+                        }else if(validateIndustrial){
                             def yyyyMmDd = url[-8..-1];
                             if(r.contains('"date":"'+yyyyMmDd+'"')){
                                 return r

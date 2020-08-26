@@ -29,11 +29,11 @@ class JsonConvert{
 	}
 
 	def integerNormalise ={it-> 
-		it instanceof String?it.replaceAll(/^--$/,'0').replaceAll('X','').replaceAll(',','').replaceAll(/^-$/,'0').replaceAll('  ',''):it
+		it instanceof String?it.replaceAll(/^--$/,'0').replaceAll("\\'",'').replaceAll('X','').replaceAll(',','').replaceAll(/^-$/,'0').replaceAll('  ',''):it
 	}
 
 	def valueNormalise ={it-> 
-		it instanceof String?it.replaceAll(/^--$/,'0').replaceAll('X','').replaceAll(',','').replaceAll(/^-$/,'0').replaceAll('  ',''):it
+		it instanceof String?it.replaceAll(/^--$/,'0').replaceAll("\\'",'').replaceAll('X','').replaceAll(',','').replaceAll(/^-$/,'0').replaceAll('  ',''):it
 	}
 
 	def static convert(@DelegatesTo(JsonConvert) Closure block){

@@ -27,11 +27,6 @@ class SqlExecuter{
 	}
 
 	def insertOrReplace(){
-		println dir
-		println jdbc
-		println user
-		println pass
-		println driver
 		new File("${dir}").mkdir()
 		def sql = Sql.newInstance(jdbc,user,pass,driver)
 		new File(dir).list().each{ code ->
@@ -44,11 +39,21 @@ class SqlExecuter{
 		}
 		sql.close()
 	}
+	def dsInstance(){
+		return Sql.newInstance(jdbc,user,pass,driver)
+	}
 	def static execute(@DelegatesTo(SqlExecuter) Closure block){
 		SqlExecuter m = new SqlExecuter()
 		block.delegate = m
 		block()
 		m.insertOrReplace()
+	}
+
+	def static dbConnection(@DelegatesTo(SqlExecuter) Closure block){
+		SqlExecuter m = new SqlExecuter()
+		block.delegate = m
+		block()
+		return m.dsInstance()
 	}
 
 }
