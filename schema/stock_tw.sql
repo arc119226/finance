@@ -296,6 +296,20 @@ CREATE TABLE IF NOT EXISTS `stock_day` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8441774 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='盤後 日交易量';
 
 -- 取消選取資料匯出。
+-- 傾印  表格 stock_tw.taiex 結構
+CREATE TABLE IF NOT EXISTS `taiex` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `date` int(11) NOT NULL DEFAULT 0 COMMENT '日期',
+  `opening_index` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '開盤指數',
+  `highest_index` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '最高指數',
+  `lowest_index` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '最低指數',
+  `closing_index` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '收盤指數',
+  `traded_day` int(11) NOT NULL DEFAULT 0 COMMENT '交易日',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `date_traded_day` (`date`,`traded_day`)
+) ENGINE=InnoDB AUTO_INCREMENT=5393 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='TAIEX  發行量加權股價指數歷史資料';
+
+-- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.yearly_trading_summary 結構
 CREATE TABLE IF NOT EXISTS `yearly_trading_summary` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
