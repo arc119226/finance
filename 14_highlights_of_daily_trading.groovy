@@ -5,20 +5,20 @@
  3.import sql
 */
 module.processor.ProcessorRunner.runDayByDay{
-	startYear 2020
-	startMonth 8
-	startday 25
+	startYear 1999
+	startMonth 1
+	startday 4
 	endYear 2020
 	endMonth 8
 	endDay 25
 	process{yyyyMmDd->
-	    if(new File('./pe_dy_pb/'+yyyyMmDd+'.sql').exists()){
+	    if(new File('./highlights_of_daily_trading/'+yyyyMmDd+'.sql').exists()){
 	    	print '>'
 	    }else{
 			    def returnJson = module.web.Webget.download{
-			         url "https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&lang=en&date=${yyyyMmDd}"
+			         url "https://www.twse.com.tw/exchangeReport/FMTQIK?response=json&lang=en&date=${yyyyMmDd}"
 			         decode 'utf-8'
-			         validatePb true
+			         validateHighLight true
 			    }
 
 				def resultSql = module.parser.JsonConvert.convert{
@@ -29,7 +29,7 @@ module.processor.ProcessorRunner.runDayByDay{
 			            }
 			            def fields = json.fields.collect(fieldNormalize)
 
-			            def _sql = "REPLACE INTO `stock_tw`.`pe_dy_pb` (`${fields.join('`,`')}`,`traded_day`) VALUES "
+			            def _sql = "REPLACE INTO `stock_tw`.`highlights_of_daily_trading` (`${fields.join('`,`')}`,`traded_day`) VALUES "
 			            
 			            for(int i=0;i<json.data.size;i++){
 			               def _data = json.data[i].collect(valueNormalise).join("','");
@@ -44,11 +44,11 @@ module.processor.ProcessorRunner.runDayByDay{
 		    	}
 
 			    if(resultSql && !resultSql.endsWith('VALUES ')){
-			    	new File('./pe_dy_pb/').mkdir()
-		     		new FileOutputStream('./pe_dy_pb/'+yyyyMmDd+'.tmp').withWriter('UTF-8') { writer ->
+			    	new File('./highlights_of_daily_trading/').mkdir()
+		     		new FileOutputStream('./highlights_of_daily_trading/'+yyyyMmDd+'.tmp').withWriter('UTF-8') { writer ->
 		        		writer << resultSql+';'
 		     		}
-		     		new File('./pe_dy_pb/'+yyyyMmDd+'.tmp').renameTo('./pe_dy_pb/'+yyyyMmDd+'.sql')
+		     		new File('./highlights_of_daily_trading/'+yyyyMmDd+'.tmp').renameTo('./highlights_of_daily_trading/'+yyyyMmDd+'.sql')
 					print '*'
 				}
 	    }
@@ -56,11 +56,11 @@ module.processor.ProcessorRunner.runDayByDay{
 }
 
 module.db.SqlExecuter.execute{
-    dir './pe_dy_pb'
+    dir './highlights_of_daily_trading'
 }
 module.io.FileBetch.execute{
-	clean './pe_dy_pb'
-	delete './pe_dy_pb'
+	clean './highlights_of_daily_trading'
+	delete './highlights_of_daily_trading'
 }
-println 'import pe_dy_pb done'
+println 'import highlights_of_daily_trading done'
 
