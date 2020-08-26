@@ -16,7 +16,7 @@ module.processor.ProcessorRunner.runDayByDay{
 	    	print '>'
 	    }else{
 			    def returnJson = module.web.Webget.download{
-			         url "https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=${yyyyMmDd}"
+			         url "https://www.twse.com.tw/fund/MI_QFIIS?response=json&selectType=ALLBUT0999&date=${yyyyMmDd}"
 			         decode 'utf-8'
 			         validateShortSell true
 			    }
