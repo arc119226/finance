@@ -20,3 +20,9 @@ https://isin.twse.com.tw/isin/C_public.jsp?strMode=4
 資料起始日20100104
 
 https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20100104&stockNo=1101
+
+本益比 淨值 殖利率
+
+資料起始日200050902
+
+https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&date=20050902&lang=en
