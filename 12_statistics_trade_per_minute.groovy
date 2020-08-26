@@ -1,14 +1,10 @@
 /**
 每日同步一次
 */
-@Grab('mysql:mysql-connector-java:5.1.39')
-@GrabConfig(systemClassLoader=true)
-import groovy.sql.Sql
-def sql = Sql.newInstance('jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4',
-						  'root',
-						  'Esorn@ldorn110','com.mysql.jdbc.Driver')
+def sql = module.db.SqlExecuter.dbConnection{}
 
 def stockCodes = sql.rows("select stock.security_code,stock.listing_day from stock where stock.stock_type='上市' order by stock.listing_day")
+sql.close()
 stockCodes.each{
 	def security_code=it.security_code
 	def listing_day = it.listing_day
@@ -19,9 +15,9 @@ stockCodes.each{
 		startYear Integer.valueOf(listing_day.toString()[0..3])
 		startMonth Integer.valueOf(listing_day.toString()[4..5])
 		startday Integer.valueOf(listing_day.toString()[6..7])
-		endYear 2020
-		endMonth 8
-		endDay 24
+		endYear Calendar.getInstance().get(Calendar.YEAR)
+		endMonth Calendar.getInstance().get(Calendar.MONTH)+1
+		endDay Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 		process{yyyyMmDd->
 			if(!new File("./statistics_trade_per_minute/${yyyyMmDd}/${security_code}.sql").exists()){
 				def _url = "https://www.twse.com.tw/exchangeReport/MI_5MINS?response=json&lang=en&date=${yyyyMmDd}&stockNo=${security_code}"
@@ -75,6 +71,7 @@ stockCodes.each{
 		}
 	}
 }
+
 // module.db.SqlExecuter.execute{
 //     dir './statistics_trade_per_minute'
 // }

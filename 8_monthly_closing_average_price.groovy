@@ -1,33 +1,12 @@
 /**
  每日一次
 */
-@Grab('mysql:mysql-connector-java:5.1.39')
-@GrabConfig(systemClassLoader=true)
-import groovy.sql.Sql
-
-
-static def deleter(){
-	if(new File("./fail_url").exists()){
-	new File("./fail_url").eachLine { line ->
-	def fileName = line.split(' ')[0].trim()
-		if(new File("./monthly_closing_average_price/${fileName}.sql").exists()){
-			new File("./monthly_closing_average_price/${fileName}.sql").delete()
-			println "delete ${fileName}.sql"
-		}else{
-			println "no file ${fileName}.sql"
-		}
-	}
-	new File("./fail_url").delete()
-	}
-
-}
 static def process_download(){
-	def sql = Sql.newInstance('jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4',
-						  'root',
-						  'Esorn@ldorn110','com.mysql.jdbc.Driver')
+	def sql = module.db.SqlExecuter.dbConnection{}
 
 	def stockCodes = sql.rows("select stock.security_code,stock.listing_day from stock where stock.stock_type='上市' order by stock.listing_day")
-
+	sql.close()
+	
 	stockCodes.each{it->
 		def security_code = it.security_code
 		def listing_day = String.format("%04d%02d%02d",Integer.valueOf(it.listing_day.toString()[0..3]),Integer.valueOf(it.listing_day.toString()[4..5]),1)
@@ -39,14 +18,14 @@ static def process_download(){
 		if(!new File("./monthly_closing_average_price/${security_code}.sql").exists()){
 			print listing_day
 			module.processor.ProcessorRunner.runMonthByMonth{
-				startYear 2020//Integer.valueOf(listing_day.toString()[0..3])
-				startMonth 8//Integer.valueOf(listing_day.toString()[4..5])
+				startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])
+				startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
 				startday 1//Integer.valueOf(listing_day.toString()[6..7])
-				endYear 2020
-				endMonth 8
+				endYear Calendar.getInstance().get(Calendar.YEAR)
+				endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 				endDay 1
 				process{yyyyMmDd->
-					sleep(10)
+					sleep(1)
 					def _url = "https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&stockNo=${security_code}&date=${yyyyMmDd}"
 					//print '.'
 					def returnJson = module.web.Webget.download{
@@ -95,13 +74,13 @@ static def process_download(){
 		 		}
 		 		new File("./monthly_closing_average_price/${security_code}.tmp").renameTo("./monthly_closing_average_price/${security_code}.sql")
 		 		//print ', save sql done'
-			}
-			print '*'
+		 		print '*'
+			}		
 		}else{
 			print '>'
 		}
 	}
-
+	
 	module.db.SqlExecuter.execute{
 	    dir './monthly_closing_average_price'
 	}
@@ -112,6 +91,5 @@ static def process_download(){
 	println 'import monthly_closing_average_price done'
 }
 static main(args) {
-	deleter()
 	process_download()
 }

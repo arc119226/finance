@@ -4,13 +4,13 @@
  2.convert json to sql
  3.import sql
 */
-module.processor.ProcessorRunner.runDayByDay{
-	startYear 1999
-	startMonth 1
-	startday 4
-	endYear 2020
-	endMonth 8
-	endDay 25
+module.processor.ProcessorRunner.runMonthByMonth{
+	startYear Calendar.getInstance().get(Calendar.YEAR)
+	startMonth  Calendar.getInstance().get(Calendar.MONTH)+1
+	startday 1
+	endYear Calendar.getInstance().get(Calendar.YEAR)
+	endMonth Calendar.getInstance().get(Calendar.MONTH)+1
+	endDay 1
 	process{yyyyMmDd->
 	    if(new File('./highlights_of_daily_trading/'+yyyyMmDd+'.sql').exists()){
 	    	print '>'

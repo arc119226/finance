@@ -5,12 +5,12 @@
  3.import sql
 */
 module.processor.ProcessorRunner.runDayByDay{
-	startYear 2004
-	startMonth 2
-	startday 11
-	endYear 2020
-	endMonth 8
-	endDay 25
+	startYear Calendar.getInstance().get(Calendar.YEAR);
+	startMonth Calendar.getInstance().get(Calendar.MONTH)+1
+	startday 1
+	endYear Calendar.getInstance().get(Calendar.YEAR);
+	endMonth Calendar.getInstance().get(Calendar.MONTH)+1
+	endDay Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 	process{yyyyMmDd->
 	    if(new File('./foreign_mainland_area_investors_trading_and_shareholding/'+yyyyMmDd+'.sql').exists()){
 	    	print '>'
@@ -20,7 +20,7 @@ module.processor.ProcessorRunner.runDayByDay{
 			         decode 'utf-8'
 			         validateShortSell true
 			    }
-
+			    print returnJson
 				def resultSql = module.parser.JsonConvert.convert{
 		        	input returnJson
 		        	parseRule {json->

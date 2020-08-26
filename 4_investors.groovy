@@ -3,12 +3,12 @@
 */
 for (item in [[type:"FD",code:'TWT38U'],[type:"SITC",code:"TWT44U"],[type:"D",code:"TWT44U"]]) {
 	module.processor.ProcessorRunner.runDayByDay{
-		startYear 2020
-		startMonth 8
-		startday 25
-		endYear 2020
-		endMonth 8
-		endDay 25
+		startYear Calendar.getInstance().get(Calendar.YEAR)
+		startMonth Calendar.getInstance().get(Calendar.MONTH)+1Calendar.getInstance().get(Calendar.MONTH)+1
+		startday Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+		endYear Calendar.getInstance().get(Calendar.YEAR)
+		endMonth Calendar.getInstance().get(Calendar.MONTH)+1
+		endDay Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 		process{yyyyMmDd->
 			if(new File('./investors/${item.type}${yyyyMmDd}.sql').exists()){
 				print '>'

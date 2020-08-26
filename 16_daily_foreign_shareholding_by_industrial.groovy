@@ -5,12 +5,12 @@
  3.import sql
 */
 module.processor.ProcessorRunner.runDayByDay{
-	startYear 2000
-	startMonth 12
-	startday 7
-	endYear 2020
-	endMonth 8
-	endDay 25
+	startYear Calendar.getInstance().get(Calendar.YEAR)
+	startMonth Calendar.getInstance().get(Calendar.MONTH)+1
+	startday Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+	endYear Calendar.getInstance().get(Calendar.YEAR)
+	endMonth Calendar.getInstance().get(Calendar.MONTH)+1
+	endDay Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 	process{yyyyMmDd->
 	    if(new File('./daily_foreign_shareholding_by_industrial/'+yyyyMmDd+'.sql').exists()){
 	    	print '>'

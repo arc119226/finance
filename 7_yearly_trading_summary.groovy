@@ -1,13 +1,9 @@
 //一年跑一次
-@Grab('mysql:mysql-connector-java:5.1.39')
-@GrabConfig(systemClassLoader=true)
-import groovy.sql.Sql
-def sql = Sql.newInstance('jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4',
-						  'root',
-						  'Esorn@ldorn110','com.mysql.jdbc.Driver')
+
+def sql = module.db.SqlExecuter.dbConnection{}
 
 def stockCodes = sql.rows("select stock.security_code,stock.listing_day from stock where stock.stock_type='上市' order by stock.listing_day")
-
+sql.close()
 stockCodes.each{
 	def security_code=it.security_code
 	def resultSql = ''
@@ -67,9 +63,10 @@ stockCodes.each{
 			print '*'
 		}
 	}else{
-			println ">"
+			print ">"
 	}
 }
+
 module.db.SqlExecuter.execute{
     dir './yearly_trading_summary'
 }

@@ -1,16 +1,12 @@
 /**
 跑完stock_day跑排行
 */
-@Grab(group='commons-io', module='commons-io', version='2.5')
-@Grab('mysql:mysql-connector-java:5.1.39')
-@GrabConfig(systemClassLoader=true)
-import groovy.sql.Sql
 
-def sql = Sql.newInstance('jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4',
-				'root','Esorn@ldorn110','com.mysql.jdbc.Driver')
+def sql = module.db.SqlExecuter.dbConnection{}
 
 
 def stockCodes = sql.rows("select distinct security_code from stock_day where updown_times is null")
+
 println stockCodes.size()
 stockCodes.each{it->
 	def security_code = it.security_code
@@ -59,7 +55,5 @@ stockCodes.each{it->
 		}
 	}
 }
-
-println '.'
-
 sql.close()
+println '.'

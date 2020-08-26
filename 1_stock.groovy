@@ -5,7 +5,7 @@
  3.import sql
 */ 
 def s2 = module.web.Webget.download{
-        url "https://isin.twse.com.tw/isin/C_public.jsp?strMode=2"
+    url "https://isin.twse.com.tw/isin/C_public.jsp?strMode=2"
 }
 s2 = s2.trim().replace('<link rel="stylesheet" href="http://isin.twse.com.tw/isin/style1.css" type="text/css">','')
             .replace("<body><table  align=center><h2><strong><font class='h1'>本國上市證券國際證券辨識號碼一覽表</font></strong></h2><h2><strong><font class='h1'>",'')
@@ -33,7 +33,7 @@ s2 = s2.trim().replace('<link rel="stylesheet" href="http://isin.twse.com.tw/isi
 println 'parse 上市 end'
 
 def s4 = module.web.Webget.download{
-        url "https://isin.twse.com.tw/isin/C_public.jsp?strMode=4"
+    url "https://isin.twse.com.tw/isin/C_public.jsp?strMode=4"
 }
 s4 = s4.trim().replace('<link rel="stylesheet" href="http://isin.twse.com.tw/isin/style1.css" type="text/css">','')
             .replace("<body><table  align=center><h2><strong><font class='h1'>本國上市證券國際證券辨識號碼一覽表</font></strong></h2><h2><strong><font class='h1'>",'')
@@ -98,6 +98,9 @@ module.db.SqlExecuter.execute{
 }
 module.io.FileBetch.execute{
     clean './stocklist_sql'
-    delete './stocklist_sql' 'tw_stock.txt'
+    delete './stocklist_sql'
+}
+module.io.FileBetch.execute{
+    delete './tw_stock.txt'
 }
 println 'import stocklist end'

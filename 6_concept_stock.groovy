@@ -1,10 +1,6 @@
 /**
  每日一次
 */
-@Grab('mysql:mysql-connector-java:5.1.39')
-@GrabConfig(systemClassLoader=true)
-import groovy.sql.Sql
-
 def s1 = module.web.Webget.download{
         url "https://stockchannelnew.sinotrade.com.tw/z/zg/zge/zge_EH000118_1.djhtm"
 }
@@ -37,11 +33,9 @@ module.io.FileBetch.execute{
     clean './concept_stock'
 }
 
-def sql = Sql.newInstance('jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4',
-						  'root',
-						  'Esorn@ldorn110','com.mysql.jdbc.Driver')
+def sql = module.db.SqlExecuter.dbConnection{}
 def groups = sql.rows("select * from concept_group ")
-
+sql.close()
 groups.each{group->
 	println group.group_code
 	def s2 = module.web.Webget.download{
@@ -71,7 +65,7 @@ groups.each{group->
 	}
 	sleep(100)
 }
-sql.close()
+
 module.db.SqlExecuter.execute{
     dir './concept_stock'
 }

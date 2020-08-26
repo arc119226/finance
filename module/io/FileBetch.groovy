@@ -21,19 +21,27 @@ class FileBetch{
 		if(clean){
 			if([Collection, Object[]].any { it.isAssignableFrom(clean.getClass()) }){
 				clean.each{it->
-					FileUtils.cleanDirectory(new File(it))
+					if(new File(it).exists()){
+						FileUtils.cleanDirectory(new File(it))
+					}
 				}
 			}else{
-				FileUtils.cleanDirectory(new File("${clean}"))
+				if(new File("${clean}").exists()){
+					FileUtils.cleanDirectory(new File("${clean}"))
+				}
 			}
 		}
 		if(delete){
 			if([Collection, Object[]].any { it.isAssignableFrom(delete.getClass()) }){
 				delete.each{it->
-					new File(it).delete()
+					if(new File(it).exists()){
+						new File(it).delete()
+					}
 				}
 			}else{
-				new File("${clean}").delete()
+				if(new File("${delete}").exists()){
+					new File("${delete}").delete()
+				}
 			}
 		}
 	}

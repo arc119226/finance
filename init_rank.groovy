@@ -5,10 +5,9 @@
 @Grab('mysql:mysql-connector-java:5.1.39')
 @GrabConfig(systemClassLoader=true)
 import groovy.sql.Sql
-def sql = Sql.newInstance('jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4',
-						  'root',
-						  'Esorn@ldorn110','com.mysql.jdbc.Driver')
+def sql = module.db.SqlExecuter.dbConnection{}
 def stockCodes = sql.rows("select stock.security_code from stock")
+sql.close()
 println stockCodes.size()
 
 stockCodes.each{it->

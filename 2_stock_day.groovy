@@ -1,30 +1,24 @@
 /**
 每日一次
 */
-@Grab('mysql:mysql-connector-java:5.1.39')
-@GrabConfig(systemClassLoader=true)
-import groovy.sql.Sql
 
-def sql = Sql.newInstance('jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4',
-						  'root',
-						  'Esorn@ldorn110','com.mysql.jdbc.Driver')
+def sql = module.db.SqlExecuter.dbConnection{}
 
 def stockCodes = sql.rows("select stock.security_code,stock.listing_day from stock where stock.stock_type='上市' order by stock.listing_day")
-
+sql.close()
 stockCodes.each{it->
 	def security_code = it.security_code
 	def listing_day = it.listing_day
 	def resultSql =''
 	if(!new File('./stock_day/'+security_code+'.sql').exists()){
 		module.processor.ProcessorRunner.runMonthByMonth{
-			startYear 2020//Integer.valueOf(listing_day.toString()[0..3])
-			startMonth 8//Integer.valueOf(listing_day.toString()[4..5])
+			startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])
+			startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
 			startday 1//Integer.valueOf(listing_day.toString()[6..7])
-			endYear 2020
-			endMonth 8
+			endYear Calendar.getInstance().get(Calendar.YEAR)
+			endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 			endDay 1
 			process{yyyyMmDd->
-				println yyyyMmDd
 			    def returnJson = module.web.Webget.download{
 			         url "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&lang=en&date=${yyyyMmDd}&stockNo=${security_code}"
 			         decode 'utf-8'
@@ -72,6 +66,7 @@ stockCodes.each{it->
 		print ">"
 	}
 }//each stock
+
 module.db.SqlExecuter.execute{
     dir './stock_day'
 }

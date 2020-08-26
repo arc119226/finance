@@ -18,7 +18,7 @@ USE `stock_tw`;
 
 -- 傾印  表格 stock_tw.company_group 結構
 CREATE TABLE IF NOT EXISTS `company_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `group_code` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '集團代號',
   `group_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '集團分類',
   PRIMARY KEY (`id`),
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `company_group` (
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.company_stock 結構
 CREATE TABLE IF NOT EXISTS `company_stock` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `group_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '集團代號',
   `security_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '證卷代號',
   PRIMARY KEY (`id`),
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `company_stock` (
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.concept_group 結構
 CREATE TABLE IF NOT EXISTS `concept_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `group_code` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '概念股分類代號',
   `group_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '概念股分類',
   PRIMARY KEY (`id`),
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `concept_group` (
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.concept_stock 結構
 CREATE TABLE IF NOT EXISTS `concept_stock` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `group_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '概念股分類代號',
   `security_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '證卷代號',
   PRIMARY KEY (`id`),
@@ -59,9 +59,23 @@ CREATE TABLE IF NOT EXISTS `concept_stock` (
 ) ENGINE=InnoDB AUTO_INCREMENT=48333 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='概念股代碼與股票代碼';
 
 -- 取消選取資料匯出。
+-- 傾印  表格 stock_tw.daily_foreign_shareholding_by_industrial 結構
+CREATE TABLE IF NOT EXISTS `daily_foreign_shareholding_by_industrial` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `category_of_Industry` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '產業別',
+  `numbers` bigint(20) NOT NULL DEFAULT 0 COMMENT '家數',
+  `number_of_shares_issued` bigint(20) NOT NULL DEFAULT 0 COMMENT '總發行股數',
+  `currently_foreign_and_mainland_area_shares_held` bigint(20) NOT NULL DEFAULT 0 COMMENT '僑外資及陸資持有總股數',
+  `percentage_of_foreign_and_mainland_area_shares_held` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '僑外資及陸資持股比率',
+  `traded_day` int(11) NOT NULL DEFAULT 0 COMMENT '交易日其',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `category_of_Industry_traded_day` (`category_of_Industry`,`traded_day`)
+) ENGINE=InnoDB AUTO_INCREMENT=155628 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='外資及陸資投資類股彙總持股比率表';
+
+-- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.foreign_mainland_area_investors_trading_and_shareholding 結構
 CREATE TABLE IF NOT EXISTS `foreign_mainland_area_investors_trading_and_shareholding` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `security_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '證券代號',
   `name_of_security` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '證券名稱',
   `isin_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '國際證券編碼',
@@ -71,18 +85,19 @@ CREATE TABLE IF NOT EXISTS `foreign_mainland_area_investors_trading_and_sharehol
   `percentage_of_available_investment` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '外資尚可投資比率',
   `percentage_of_shares_held` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '全體外資持股比率',
   `upper_limit` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '法令投資上限比率',
-  `reasons_of_change` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '與前日異動原因',
+  `upper_limit_mainland` decimal(15,2) DEFAULT 0.00 COMMENT '陸資法令投資上限比率',
+  `reasons_of_change` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '與前日異動原因',
   `last_filing_date_by_listed_companies` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '最近一次上市公司申報外資持股異動日期',
   `traded_day` int(11) NOT NULL DEFAULT 0 COMMENT '交易日其',
   PRIMARY KEY (`id`),
   UNIQUE KEY `security_code_traded_day` (`security_code`,`traded_day`)
-) ENGINE=InnoDB AUTO_INCREMENT=935 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='外資投資持股統計\r\n\r\n一、與前日異動原因以空白及數字2,3,4,5表示，其代表意義說明如下：,\r\n''空白''係指外陸資於集中市場交易所產生之股數異動，不包含外陸資配認股數、外資原始股東出售股數、存託憑證發行等異動。,\r\n  ''2''係上市公司因股本變動申報最近一次除權交易日或股東會外陸資持股情形、因依規定之固定基準日申報外陸資持股情形、因前次申報資料有誤予以更新、或因發行海外有價證券、合併、公開收購等申報外陸資持股情形。,\r\n  ''3''係指非前項因素所產生之持股變動，如海外存託憑證經證期局核可尚未發行之預扣等。,\r\n  ''4''係依海外存託憑證流通餘額及外國人將海外存託憑證兌回普通股或將普通股再發行海外存託憑證情形更新外陸資持股數。,\r\n  ''5''係依上市公司每月申報國內海外有價證券轉換情形更新外陸資持股數。';
+) ENGINE=InnoDB AUTO_INCREMENT=3669461 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='外資投資持股統計\r\n\r\n一、與前日異動原因以空白及數字2,3,4,5表示，其代表意義說明如下：,\r\n''空白''係指外陸資於集中市場交易所產生之股數異動，不包含外陸資配認股數、外資原始股東出售股數、存託憑證發行等異動。,\r\n  ''2''係上市公司因股本變動申報最近一次除權交易日或股東會外陸資持股情形、因依規定之固定基準日申報外陸資持股情形、因前次申報資料有誤予以更新、或因發行海外有價證券、合併、公開收購等申報外陸資持股情形。,\r\n  ''3''係指非前項因素所產生之持股變動，如海外存託憑證經證期局核可尚未發行之預扣等。,\r\n  ''4''係依海外存託憑證流通餘額及外國人將海外存託憑證兌回普通股或將普通股再發行海外存託憑證情形更新外陸資持股數。,\r\n  ''5''係依上市公司每月申報國內海外有價證券轉換情形更新外陸資持股數。';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.highlights_of_daily_trading 結構
 CREATE TABLE IF NOT EXISTS `highlights_of_daily_trading` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `date` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '日期',
+  `date` int(11) NOT NULL DEFAULT 0 COMMENT '日期',
   `trade_volume` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '成交量',
   `trade_value` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '成交金額',
   `transaction` decimal(15,2) NOT NULL DEFAULT 0.00 COMMENT '成交筆數',
@@ -91,7 +106,16 @@ CREATE TABLE IF NOT EXISTS `highlights_of_daily_trading` (
   `traded_day` int(11) NOT NULL DEFAULT 0 COMMENT '成交日期',
   PRIMARY KEY (`id`),
   UNIQUE KEY `date_traded_day` (`date`,`traded_day`)
-) ENGINE=InnoDB AUTO_INCREMENT=167319 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='市場成交資訊';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='市場成交資訊';
+
+-- 取消選取資料匯出。
+-- 傾印  表格 stock_tw.industry_mapping 結構
+CREATE TABLE IF NOT EXISTS `industry_mapping` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name_en` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `name_tw` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.investors 結構
@@ -105,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `investors` (
   `type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT 'FD=外資 D=自營商 SITC=投信',
   PRIMARY KEY (`id`),
   UNIQUE KEY `security_code_traded_day_type` (`security_code`,`traded_day`,`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=3548624 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='三大法人買賣超';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='三大法人買賣超';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.monthly_closing_average_price 結構
@@ -150,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `pe_dy_pb` (
   `fiscal_year_quarter` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '財報年/季',
   PRIMARY KEY (`id`),
   UNIQUE KEY `stock_code_traded_day` (`security_code`,`traded_day`)
-) ENGINE=InnoDB AUTO_INCREMENT=2259037 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='本益比 \r\n判斷公司股價是否合理，通常用來分析獲利穩定的公司。\r\n淨值比\r\n判斷公司股價是否合理，通常用來分析獲利不穩定或虧損的公司。\r\n殖利率\r\n年報酬率';
+) ENGINE=InnoDB AUTO_INCREMENT=5278936 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='本益比 \r\n判斷公司股價是否合理，通常用來分析獲利穩定的公司。\r\n淨值比\r\n判斷公司股價是否合理，通常用來分析獲利不穩定或虧損的公司。\r\n殖利率\r\n年報酬率';
 
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.short_sales_volume_and_value 結構
@@ -187,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `statistics_trade_per_minute` (
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.stock 結構
 CREATE TABLE IF NOT EXISTS `stock` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `security_code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '證卷代號',
   `stock_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '證卷名稱',
   `isin_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '國際證券編碼',
@@ -235,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `stock_day` (
 -- 取消選取資料匯出。
 -- 傾印  表格 stock_tw.yearly_trading_summary 結構
 CREATE TABLE IF NOT EXISTS `yearly_trading_summary` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `year` int(11) DEFAULT NULL COMMENT '年',
   `trade_volume` decimal(15,2) DEFAULT NULL COMMENT '成交量',
   `trade_value` decimal(15,2) DEFAULT NULL COMMENT '成交金額',
