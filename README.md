@@ -73,6 +73,8 @@ https://www.twse.com.tw/exchangeReport/TWTASU?response=csv&date=20080926
 https://www.twse.com.tw/fund/MI_QFIIS?response=csv&date=20040211&selectType=ALLBUT0999
 
 市場成交資訊
+
 資料起始日19900104
+
 https://www.twse.com.tw/exchangeReport/FMTQIK?response=json&date=19900101
 
