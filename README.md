@@ -78,3 +78,9 @@ https://www.twse.com.tw/fund/MI_QFIIS?response=csv&date=20040211&selectType=ALLB
 
 https://www.twse.com.tw/exchangeReport/FMTQIK?response=json&date=19900101
 
+外資及陸資投資類股彙總持股比率表
+
+資料起始日20001207
+
+https://www.twse.com.tw/fund/MI_QFIIS_cat?response=json&date=20001207
+
