@@ -4,11 +4,12 @@
 
 爬資料的API
 
+#1.1
 上市股票資訊
 
 https://isin.twse.com.tw/isin/C_public.jsp?strMode=2
 
-上櫃股票資訊
+#1.2上櫃股票資訊
 
 https://isin.twse.com.tw/isin/C_public.jsp?strMode=4
 
