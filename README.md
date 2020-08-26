@@ -47,3 +47,9 @@ https://www.twse.com.tw/fund/TWT38U?response=json&date=20041217
 資料起始日19990105
 
 https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&date=19990101&stockNo=1101
+
+月成交資訊
+
+資料起始日19920101
+
+https://www.twse.com.tw/exchangeReport/FMSRFK?response=json&lang=en&date=19920101&stockNo=1101
