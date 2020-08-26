@@ -105,8 +105,17 @@ https://www.twse.com.tw/fund/MI_QFIIS_cat?response=csv&date=20001207
 https://www.twse.com.tw/exchangeReport/MI_5MINS?response=csv&&date=20041015&stockNo=1101
 
 15
+融資融卷餘額
 信用交易統計 與 融資融券彙總
 
 資料起始日20010101
 
-https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&selectType=ALL&lang=en&date=20010101
+https://www.twse.com.tw/exchangeReport/MI_MARGN?response=csv&selectType=ALL&date=20010101
+
+
+16
+發行量加權股價指數歷史資料
+
+資料起始日19990101
+
+https://www.twse.com.tw/indicesReport/MI_5MINS_HIST?response=csv&date=19990101
