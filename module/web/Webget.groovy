@@ -101,9 +101,6 @@ class Webget{
                 InputStream is = get.getInputStream();
                 if(decode == null){
                     def r=org.apache.commons.io.IOUtils.toString(is);
-                    // if(r!=null && (r.contains('OK') || r.contains('No Data!')||r.contains('Sorry')) && !r.contains('null')){
-                    //     return r
-                    // } 
                     if(r){
                         return r
                     }

@@ -9,7 +9,7 @@ class SqlExecuter{
 	String user='root'
 	String pass='Esorn@ldorn110'
 	String dir
- 
+ 	String queryString
 	def driver(String obj){
 		this.driver=obj
 	}
@@ -24,6 +24,9 @@ class SqlExecuter{
 	}
 	def dir(String obj){
 		this.dir=obj
+	}
+	def queryString(String queryString){
+		this.queryString=queryString
 	}
 
 	def insertOrReplace(){
@@ -41,6 +44,12 @@ class SqlExecuter{
 	def dsInstance(){
 		return Sql.newInstance(jdbc,user,pass,driver)
 	}
+	def doQuery(){
+		def sql = this.dsInstance()
+		def result = sql.rows(queryString)
+		sql.close()
+		return result
+	}
 	def static execute(@DelegatesTo(SqlExecuter) Closure block){
 		SqlExecuter m = new SqlExecuter()
 		block.delegate = m
@@ -53,6 +62,12 @@ class SqlExecuter{
 		block.delegate = m
 		block()
 		return m.dsInstance()
+	}
+	def static query(@DelegatesTo(SqlExecuter) Closure block){
+		SqlExecuter m = new SqlExecuter()
+		block.delegate = m
+		block()
+		return m.doQuery()
 	}
 
 }

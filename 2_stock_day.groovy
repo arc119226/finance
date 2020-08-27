@@ -1,11 +1,9 @@
 /**
 每日一次
 */
-
-def sql = module.db.SqlExecuter.dbConnection{}
-
-def stockCodes = sql.rows("select stock.security_code,stock.listing_day from stock where stock_type='上市' order by stock.listing_day")
-sql.close()
+def stockCodes = module.db.SqlExecuter.query{
+	queryString "select stock.security_code,stock.listing_day from stock where stock_type='上市' order by stock.listing_day"
+}
 stockCodes.each{it->
 	def security_code = it.security_code
 	def listing_day = it.listing_day
@@ -13,7 +11,7 @@ stockCodes.each{it->
 		listing_day=20100101
 	}
 	def resultSql =''
-	if(!new File('./stock_day/'+security_code+'.sql').exists()){
+	if(!new File("./stock_day/${security_code}.sql").exists()){
 		module.processor.ProcessorRunner.runMonthByMonth{
 			startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])//
 			startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
@@ -27,8 +25,6 @@ stockCodes.each{it->
 			         decode 'utf-8'
 			         validateStockDay true
 			    }
-			    //print ' fetch api done'
-
 				module.parser.JsonConvert.convert{
 		        	input returnJson
 		        	parseRule {json->
@@ -58,12 +54,13 @@ stockCodes.each{it->
 			}//process
 		}//run
 		if(resultSql && !resultSql.endsWith('VALUES ')){
-	    	new File('./stock_day/').mkdir()
-	 		new FileOutputStream('./stock_day/'+security_code+'.tmp').withWriter('UTF-8') { writer ->
+	    	if(!new File('./stock_day/').exists()){
+	    		new File('./stock_day/').mkdir()
+	    	}
+	 		new FileOutputStream("./stock_day/${security_code}.tmp").withWriter('UTF-8') { writer ->
 	    		writer << resultSql+';'
 	 		}
-	 		new File('./stock_day/'+security_code+'.tmp').renameTo('./stock_day/'+security_code+'.sql')
-	 		//print ', save sql done'
+	 		new File("./stock_day/${security_code}.tmp").renameTo("./stock_day/${security_code}.sql")
 		}
 		print '*'
 	}else{

@@ -19,30 +19,24 @@ class FileBetch{
 
 	def executer(){
 		if(clean){
-			if([Collection, Object[]].any { it.isAssignableFrom(clean.getClass()) }){
-				clean.each{it->
-					if(new File(it).exists()){
-						FileUtils.cleanDirectory(new File(it))
-					}
-				}
-			}else{
-				if(new File("${clean}").exists()){
-					FileUtils.cleanDirectory(new File("${clean}"))
-				}
+			if(new File("${clean}").exists()){
+				FileUtils.cleanDirectory(new File("${clean}"))
 			}
 		}
 		if(delete){
-			if([Collection, Object[]].any { it.isAssignableFrom(delete.getClass()) }){
-				delete.each{it->
-					if(new File(it).exists()){
-						new File(it).delete()
-					}
-				}
-			}else{
-				if(new File("${delete}").exists()){
-					new File("${delete}").delete()
-				}
+			if(new File("${delete}").exists()){
+				new File("${delete}").delete()
 			}
+		}
+		if(errorlog){
+            File error = new File('./error.log')
+            error.append('\n'+errorlog)
+		}
+		if(log){
+			print log
+			def yyyymmdd=new Date().format('yyyyMMdd')
+			File logmsg = new File("./${yyyymmdd}.log")
+            logmsg.append(log)
 		}
 	}
 	def static execute(@DelegatesTo(FileBetch) Closure block){
