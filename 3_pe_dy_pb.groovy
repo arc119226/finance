@@ -7,7 +7,7 @@
 module.processor.ProcessorRunner.runDayByDay{
 	startYear Calendar.getInstance().get(Calendar.YEAR)
 	startMonth Calendar.getInstance().get(Calendar.MONTH)+1
-	startday Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+	startday 1//Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 	endYear Calendar.getInstance().get(Calendar.YEAR)
 	endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 	endDay Calendar.getInstance().get(Calendar.DAY_OF_MONTH)

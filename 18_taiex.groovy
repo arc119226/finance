@@ -12,6 +12,7 @@ module.processor.ProcessorRunner.runMonthByMonth{
 		    def returnJson = module.web.Webget.download{
 		         url "https://www.twse.com.tw/indicesReport/MI_5MINS_HIST?response=json&lang=en&date=${yyyyMmDd}"
 		         decode 'utf-8'
+		         validateTaiex true
 		    }
 
 			module.parser.JsonConvert.convert{

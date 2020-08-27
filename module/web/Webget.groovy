@@ -46,6 +46,7 @@ class Webget{
     boolean validateForeign=false
     boolean validateIndustrial=false
     boolean validateMarginTransactionl=false
+    boolean validateTaiex=false
     def url(String url){
         this.url=url
     }
@@ -85,8 +86,11 @@ class Webget{
     def validateMarginTransactionl(boolean validateMarginTransactionl){
         this.validateMarginTransactionl=validateMarginTransactionl
     }
-
+    def validateTaiex(boolean validateTaiex){
+        this.validateTaiex=validateTaiex
+    }
     def openConnection(){
+        int failCount = 0
         for(int i=0; i<=retry;i++){
             def get = new URL(url).openConnection()
             if(get.getResponseCode().equals(200)) {
@@ -101,22 +105,13 @@ class Webget{
                     }
                 }else{
                     def r=org.apache.commons.io.IOUtils.toString(is, decode);
-                    if(r!=null && (r.contains('OK') || 
-                                    r.contains('Data Not Found!')||
-                                    r.contains('please retry!')||
-                                    r.contains('No Data!')||
-                                    r.contains('No data')||
-                                    r.contains('No data found.')||
-                                    r.contains('Sorry'))){
-                        if(false == validate || false == validatePb){
-                            return r
-                        }else if(validate){
+                    if(r!=null && r.contains('OK')){
+                        if(validate){
                             //need strict validate
                             def pattern = ~/(\d+\/\d+\/\d+)/
                             def macher = r =~ pattern
                             macher.find()
                             macher.size()
-                            int failCount = 0
                             macher.each{
                                 String strValue = it[0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5')
                                 if(strValue.length()==8){
@@ -168,6 +163,7 @@ class Webget{
                             }
                         }else if(validateIndustrial){
                             def yyyyMmDd = url[-8..-1];
+                            println yyyyMmDd
                             if(r.contains('"date":"'+yyyyMmDd+'"')){
                                 return r
                             }else{
@@ -180,8 +176,22 @@ class Webget{
                             }else{
                                 failCount++
                             }
+                        }else if(validateTaiex){
+                            def yyyyMmDd = url[-8..-1];
+                            if(r.contains('"date":"'+yyyyMmDd+'"')){
+                                return r
+                            }else{
+                                failCount++
+                            }
                         }
-                    } 
+                    }else if(r.contains('Data Not Found!')||
+                                    r.contains('please retry!')||
+                                    r.contains('No Data!')||
+                                    r.contains('No data')||
+                                    r.contains('No data found.')||
+                                    r.contains('Sorry')){
+                            return r
+                    }
                 }
             }//if
             if(i==retry){

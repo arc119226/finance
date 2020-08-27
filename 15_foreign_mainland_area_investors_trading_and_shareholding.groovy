@@ -20,7 +20,7 @@ module.processor.ProcessorRunner.runDayByDay{
 			         decode 'utf-8'
 			         validateShortSell true
 			    }
-			    print returnJson
+			    //print returnJson
 				def resultSql = module.parser.JsonConvert.convert{
 		        	input returnJson
 		        	parseRule {json->

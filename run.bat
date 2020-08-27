@@ -7,7 +7,6 @@ call groovy 3_pe_dy_pb.groovy
 call groovy 4_investors.groovy
 call groovy 5_company_group.groovy
 call groovy 6_concept_stock.groovy
-call groovy 7_yearly_trading_summary.groovy
 call groovy 8_monthly_closing_average_price.groovy
 call groovy 9_monthly_trading_summary.groovy
 call groovy 11_rankupdate.groovy

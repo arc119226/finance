@@ -1,4 +1,4 @@
-//一年跑一次
+//一年跑一次 會獲得歷年直到前一年年度之彙總資料
 
 def sql = module.db.SqlExecuter.dbConnection{}
 
