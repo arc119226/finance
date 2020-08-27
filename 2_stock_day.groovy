@@ -4,15 +4,18 @@
 
 def sql = module.db.SqlExecuter.dbConnection{}
 
-def stockCodes = sql.rows("select stock.security_code,stock.listing_day from stock where stock.stock_type='上市' order by stock.listing_day")
+def stockCodes = sql.rows("select stock.security_code,stock.listing_day from stock where stock_type='上市' order by stock.listing_day")
 sql.close()
 stockCodes.each{it->
 	def security_code = it.security_code
 	def listing_day = it.listing_day
+	if(listing_day<20100101){
+		listing_day=20100101
+	}
 	def resultSql =''
 	if(!new File('./stock_day/'+security_code+'.sql').exists()){
 		module.processor.ProcessorRunner.runMonthByMonth{
-			startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])
+			startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])//
 			startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
 			startday 1//Integer.valueOf(listing_day.toString()[6..7])
 			endYear Calendar.getInstance().get(Calendar.YEAR)
@@ -20,8 +23,9 @@ stockCodes.each{it->
 			endDay 1
 			process{yyyyMmDd->
 			    def returnJson = module.web.Webget.download{
-			         url "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&lang=en&date=${yyyyMmDd}&stockNo=${security_code}"
+			         url "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&lang=en&stockNo=${security_code}&date=${yyyyMmDd}"
 			         decode 'utf-8'
+			         validateStockDay true
 			    }
 			    //print ' fetch api done'
 

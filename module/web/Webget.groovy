@@ -47,6 +47,7 @@ class Webget{
     boolean validateIndustrial=false
     boolean validateMarginTransactionl=false
     boolean validateTaiex=false
+    boolean validateStockDay=false
     def url(String url){
         this.url=url
     }
@@ -88,6 +89,9 @@ class Webget{
     }
     def validateTaiex(boolean validateTaiex){
         this.validateTaiex=validateTaiex
+    }
+    def validateStockDay(boolean validateStockDay){
+        this.validateStockDay=validateStockDay
     }
     def openConnection(){
         int failCount = 0
@@ -183,6 +187,15 @@ class Webget{
                             }else{
                                 failCount++
                             }
+                        }else if(validateStockDay){
+                            def yyyyMmDd = url[-8..-1];
+                            if(r.contains('"date":"'+yyyyMmDd+'"')){
+                                return r
+                            }else{
+                                failCount++
+                            }
+                        }else{
+                            return r
                         }
                     }else if(r.contains('Data Not Found!')||
                                     r.contains('please retry!')||

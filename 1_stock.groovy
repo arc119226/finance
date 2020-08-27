@@ -61,8 +61,8 @@ s4 = s4.trim().replace('<link rel="stylesheet" href="http://isin.twse.com.tw/isi
 println 'parse 上櫃 end'
 
 new FileOutputStream('tw_stock.txt').withWriter('UTF-8') { writer ->
-    writer << "${s2}"
-    writer << "\r\n${s4}"
+    writer << "${s4}"
+    writer << "\r\n${s2}"
 }
 println 'save to file end'
 
