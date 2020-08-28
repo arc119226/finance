@@ -5,7 +5,7 @@
  	def defaultLlistingDay = 20100101
  	def sqlDirName = 'stock_day'
  	def sqlConditon = 'select stock.security_code,stock.listing_day from stock where stock_type=\'上市\' order by stock.listing_day'
-
+ 	def sqlConditon2 = "select distinct security_code from stock_day where updown_times is null"
  	def doSync(){
 		def stockCodes = module.db.SqlExecuter.query{queryString sqlConditon}
 		stockCodes.each{it->
@@ -77,6 +77,7 @@
 			clean "./${sqlDirName}"
 			delete "./${sqlDirName}"
 			info 'import stock_day done'
+			info 'start update rank'
 		}
 
 
@@ -84,7 +85,7 @@
 		def sql = module.db.SqlExecuter.dbConnection{}
 
 
-		stockCodes = sql.rows("select distinct security_code from stock_day where updown_times is null")
+		stockCodes = sql.rows(sqlConditon2)
 
 		println stockCodes.size()
 		stockCodes.each{it->
@@ -130,12 +131,15 @@
 						currentRank = 0
 					}
 					def updateResult = sql.executeUpdate("update stock_day set updown_times = :upDownTimes,last_updown_times = :lastUpDownTimes where id= :id",upDownTimes:currentRank,lastUpDownTimes:lastRank,id:dt.id)
-					print '*'
+					print '#'
 				}
 			}
 		}
 		sql.close()
 		///////////////
+		module.io.Batch.exec{
+			info 'update rank done'
+		}
  	}
 
     def static sync(@DelegatesTo(StockDay) Closure block){

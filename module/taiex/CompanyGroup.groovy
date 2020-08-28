@@ -32,7 +32,7 @@ class CompanyGroup{
 		module.db.SqlExecuter.execute{
 		    dir "./${sqlDirName}"
 		}
-		module.io.Batch.execute{
+		module.io.Batch.exec{
 		    clean "./${sqlDirName}"
 		}
 
