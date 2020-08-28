@@ -72,11 +72,11 @@ stockCodes.each{
 	}
 }
 
-// module.db.SqlExecuter.execute{
-//     dir './statistics_trade_per_minute'
-// }
-// module.io.FileBetch.execute{
-// 	clean './statistics_trade_per_minute'
-// 	delete './statistics_trade_per_minute'
-// }
-// println 'import statistics_trade_per_minute done'
+module.db.SqlExecuter.execute{
+    dir './statistics_trade_per_minute'
+}
+module.io.FileBetch.execute{
+	clean './statistics_trade_per_minute'
+	delete './statistics_trade_per_minute'
+}
+println 'import statistics_trade_per_minute done'
