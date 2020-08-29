@@ -86,7 +86,7 @@ https://www.twse.com.tw/exchangeReport/FMTQIK?response=csv&date=19900101
 
 https://www.twse.com.tw/fund/MI_QFIIS_cat?response=csv&date=20001207
 
-#### 14 每分鐘委託成交統計
+#### 14 每分鐘委託成交統計(磁碟空間沒有個１０Ｔ就不用爬了)
 
 資料起始日20041015
 
