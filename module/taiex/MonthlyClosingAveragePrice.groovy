@@ -3,7 +3,14 @@ class MonthlyClosingAveragePrice{
 	def sqlDirName = 'monthly_closing_average_price'
 
 	def doSync(){
-///////////
+		try{
+			this.doSyncDetail()
+		}catch(Exception e){
+			e.printStackTrace()
+		}
+
+	}
+	def doSyncDetail(){
 		def sql = module.db.SqlExecuter.dbConnection{}
 
 		def stockCodes = sql.rows("select stock.security_code,stock.listing_day from stock where stock.stock_type='上市' order by stock.listing_day")
@@ -18,7 +25,7 @@ class MonthlyClosingAveragePrice{
 			}
 			def resultSql =''
 			if(!new File("./${sqlDirName}/${security_code}.sql").exists()){
-				print listing_day
+				//print listing_day
 				module.processor.ProcessorRunner.runMonthByMonth{
 					startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])
 					startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
@@ -34,7 +41,7 @@ class MonthlyClosingAveragePrice{
 						     url _url
 						     decode 'utf-8'
 						     retry 100
-						     sleeptime 50
+						     sleeptime 5000
 						     validate true
 						}
 						module.parser.JsonConvert.convert{
@@ -76,6 +83,7 @@ class MonthlyClosingAveragePrice{
                 		rename "./${sqlDirName}/${security_code}.tmp","./${sqlDirName}/${security_code}.sql"
            			}
 			 		print '*'
+			 		sleep(100)
 				}		
 			}else{
 				print '>'
@@ -85,16 +93,13 @@ class MonthlyClosingAveragePrice{
 		module.db.SqlExecuter.execute{
 		    dir "./${sqlDirName}"
 		}
-		module.io.Batch.execute{
+		module.io.Batch.exec{
 			clean "./${sqlDirName}"
 			delete "./${sqlDirName}"
 			info 'import monthly_closing_average_price done'
-		}
-		println 
-
-///////////
+		} 
+///////////		
 	}
-
 	def static sync(@DelegatesTo(MonthlyClosingAveragePrice) Closure block){
 	        MonthlyClosingAveragePrice m = new MonthlyClosingAveragePrice()
 	        block.delegate = m

@@ -1,4 +1,4 @@
- package module.taiex
+package module.taiex
 class MonthlyTradingSummary{
 	
 	def sqlDirName = 'monthly_trading_summary'
@@ -76,7 +76,7 @@ class MonthlyTradingSummary{
 		module.db.SqlExecuter.execute{
 		    dir "./${sqlDirName}"
 		}
-		module.io.Batch.execute{
+		module.io.Batch.exec{
 			clean "./${sqlDirName}"
 			delete "./${sqlDirName}"
 			info 'import monthly_trading_summary done'

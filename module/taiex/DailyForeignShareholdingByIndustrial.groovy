@@ -57,7 +57,7 @@ class DailyForeignShareholdingByIndustrial{
 		module.db.SqlExecuter.execute{
 		    dir "./${sqlDirName}"
 		}
-		module.io.Batch.execute{
+		module.io.Batch.exec{
 			clean "./${sqlDirName}"
 			delete "./${sqlDirName}"
 			info 'import daily_foreign_shareholding_by_industrial done'

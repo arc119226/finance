@@ -1,7 +1,10 @@
  package module.taiex
 
  class StockDay{
-
+ 	Boolean isInit =false
+ 	def isInit(Boolean isInit){
+ 		this.isInit=isInit
+ 	}
  	def defaultLlistingDay = 20100101
  	def sqlDirName = 'stock_day'
  	def sqlConditon = 'select stock.security_code,stock.listing_day from stock where stock_type=\'上市\' order by stock.listing_day'
@@ -79,13 +82,73 @@
 			info 'import stock_day done'
 			info 'start update rank'
 		}
-
-
 		///////////////
+		if(isInit){
+			this.initRank()
+		}else{
+			this.updateRank()
+		}
+
+ 	}
+
+ 	def initRank(){
 		def sql = module.db.SqlExecuter.dbConnection{}
+		def stockCodes = sql.rows("select stock.security_code from stock")
 
+		println stockCodes.size()
 
-		stockCodes = sql.rows(sqlConditon2)
+		stockCodes.each{it->
+			def security_code = it.security_code
+			def datas = sql.rows("select * from stock_day where security_code = :security_code order by traded_day",security_code:security_code)
+
+			def lastRank = 0
+			def currentRank = 0
+			datas.each{dt->	
+				if(dt.change >0 ){
+					if(currentRank == 0){
+						lastRank=currentRank
+						currentRank=currentRank+1
+					}else if(currentRank < 0){
+						lastRank=currentRank
+						currentRank = 0
+						currentRank = 1
+					}else if(currentRank>0){
+						lastRank = currentRank
+						currentRank=currentRank+1
+					}
+
+				}else if(dt.change < 0){
+					
+					if(currentRank==0){
+						lastRank=currentRank
+						currentRank=currentRank-1
+					}else if(currentRank<0){
+						lastRank=currentRank
+						currentRank=currentRank-1
+					}else if(currentRank>0){
+						lastRank=currentRank
+						currentRank=0
+						currentRank=-1
+					}
+
+				}else{
+					lastRank=currentRank
+					currentRank = 0
+				}
+				//println dt.traded_day+' '+dt.stock_code+' '+currentRank+' '+lastRank
+				def updateResult = sql.executeUpdate("update stock_day set updown_times = :upDownTimes,last_updown_times = :lastUpDownTimes where id= :id",upDownTimes:currentRank,lastUpDownTimes:lastRank,id:dt.id)
+				print '#'
+			}
+
+		}
+		module.io.Batch.exec{
+			info 'update rank done'
+		}
+		sql.close()
+ 	}
+ 	def updateRank(){
+ 		def sql = module.db.SqlExecuter.dbConnection{}
+		def stockCodes = sql.rows(sqlConditon2)
 
 		println stockCodes.size()
 		stockCodes.each{it->

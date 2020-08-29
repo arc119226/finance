@@ -101,11 +101,13 @@ class Webget{
                 InputStream is = get.getInputStream();
                 if(decode == null){
                     def r=org.apache.commons.io.IOUtils.toString(is);
+                    get.disconnect()
                     if(r){
                         return r
                     }
                 }else{
                     def r=org.apache.commons.io.IOUtils.toString(is, decode);
+                    get.disconnect()
                     if(r!=null && r.contains('OK')){
                         if(validate){
                             //need strict validate

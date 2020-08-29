@@ -83,12 +83,11 @@ class MarginTransactionl{
 		module.db.SqlExecuter.execute{
 		    dir "./${sqlDirName}"
 		}
-		module.io.Batch.execute{
+		module.io.Batch.exec{
 			clean "./${sqlDirName}"
 			delete "./${sqlDirName}"
 			info 'import margin_transactionl done'
-		}
-		println 
+		} 
 ////////////////////
 	}
 	def static sync(@DelegatesTo(MarginTransactionl) Closure block){

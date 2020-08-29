@@ -11,7 +11,7 @@ class HighlightsOfDailyTrading{
 			endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 			endDay 1
 			process{yyyyMmDd->
-			    if(new File("./${highlights_of_daily_trading}/${yyyyMmDd}.sql").exists()){
+			    if(new File("./${sqlDirName}/${yyyyMmDd}.sql").exists()){
 			    	print '>'
 			    }else{
 					    def returnJson = module.web.Webget.download{
