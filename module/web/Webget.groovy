@@ -48,6 +48,13 @@ class Webget{
     boolean validateMarginTransactionl=false
     boolean validateTaiex=false
     boolean validateStockDay=false
+
+    boolean parsePage=false
+
+    def parsePage(boolean parsePage){
+        this.parsePage=parsePage
+    }
+
     def url(String url){
         this.url=url
     }
@@ -101,6 +108,12 @@ class Webget{
                 InputStream is = get.getInputStream();
                 if(decode == null){
                     def r=org.apache.commons.io.IOUtils.toString(is);
+                    get.disconnect()
+                    if(r){
+                        return r
+                    }
+                }else if(decode && parsePage){
+                    def r=org.apache.commons.io.IOUtils.toString(is,decode);
                     get.disconnect()
                     if(r){
                         return r
@@ -204,7 +217,7 @@ class Webget{
                                     r.contains('Sorry')){
                             return r
                     }
-                }
+                }//end else
             }//if
             if(i==retry){
                 File error = new File(errorLog)

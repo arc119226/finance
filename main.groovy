@@ -13,5 +13,6 @@ static main(args) {
 // module.taiex.DailyForeignShareholdingByIndustrial.sync{}
 // module.taiex.MarginTransactionl.sync{}
  // module.taiex.Taiex.sync{}
- module.taiex.StatisticsTradePerMinute.sync{}
+ //module.taiex.StatisticsTradePerMinute.sync{}
+module.taiex.NtdInfo.sync{}
 }
