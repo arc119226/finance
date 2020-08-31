@@ -224,9 +224,11 @@ class Webget{
             if(i==retry){
                 File error = new File(errorLog)
                 error.append('\n'+get.getResponseCode()+' '+url+'')
+                System.exit(1)
                 return null
             }//if
-            print '.'
+            print '.'+"${i} "
+            
             sleep(sleeptime)
         }//for
     }//download

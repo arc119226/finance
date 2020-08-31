@@ -34,14 +34,13 @@ class MonthlyClosingAveragePrice{
 					endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 					endDay 1
 					process{yyyyMmDd->
-						sleep(1)
 						def _url = "https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&stockNo=${security_code}&date=${yyyyMmDd}"
 						//print '.'
 						def returnJson = module.web.Webget.download{
 						     url _url
 						     decode 'utf-8'
-						     retry 100
-						     sleeptime 5000
+						     retry 5
+						     sleeptime 100
 						     validate true
 						}
 						module.parser.JsonConvert.convert{
@@ -83,7 +82,7 @@ class MonthlyClosingAveragePrice{
                 		rename "./${sqlDirName}/${security_code}.tmp","./${sqlDirName}/${security_code}.sql"
            			}
 			 		print '*'
-			 		sleep(100)
+			 		// sleep(100)
 				}		
 			}else{
 				print '>'
