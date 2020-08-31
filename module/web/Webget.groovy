@@ -13,6 +13,7 @@ import java.security.cert.X509Certificate
 
 class Webget{
     static{
+        System.setProperty("http.keepAlive", "false");
         TrustManager[] trustAllCerts = [ 
             new X509TrustManager() {
                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -104,6 +105,7 @@ class Webget{
         int failCount = 0
         for(int i=0; i<=retry;i++){
             def get = new URL(url).openConnection()
+            get.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"); 
             if(get.getResponseCode().equals(200)) {
                 InputStream is = get.getInputStream();
                 if(decode == null){

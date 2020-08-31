@@ -1,5 +1,6 @@
 static main(args) {
-//module.taiex.StockList.sync{}
+	
+// module.taiex.StockList.sync{}
 //module.taiex.StockDay.sync{}
 //module.taiex.PeDyPb.sync{}
 //module.taiex.Investors.sync{}

@@ -13,31 +13,26 @@ class NtdInfo{
 			parsePage true
 		}
 
-		def matcher = menu =~ ~/<a href="(.+)" title="新臺幣\/美元 銀行間收盤匯率">/
-		matcher.find()
-		def usttwdUrl
-		matcher.each{data->
-			usttwdUrl=baseUrl+data[1]
+		def usdntdGroup = module.parser.Regix.parse{
+			pattern ~/<a href="(.+)" title="新臺幣\/美元 銀行間收盤匯率">/
+			document menu
+			groups Arrays.asList(1)
 		}
-		if(usttwdUrl){
-			println usttwdUrl
-		}
+		def usttwdUrl=baseUrl+usdntdGroup[0][0]
+
 		def firstPage = module.web.Webget.download{
 			url "${usttwdUrl}" 
 			decode 'utf-8'
 			parsePage true
 		}
 
-		def matchPageLast = firstPage =~ ~/<a title="最後一頁" href="(.+)">/
-		matchPageLast.find()
-		def pageTemplate
-		def lastPageNumber
-		matchPageLast.each{
-			pageTemplate =baseUrl+'/tw/'+it[1][0..8]+'<pageNo>'+it[1][-8..-1]
-			lastPageNumber = Integer.parseInt(it[1][9..-9])
-		}
-		println pageTemplate
-		println lastPageNumber
+		def lastPageGroup = module.parser.Regix.parse{
+			pattern ~/<a title="最後一頁" href="(.+)">/
+			document firstPage
+			groups Arrays.asList(1)
+		} 
+		def pageTemplate=baseUrl+'/tw/'+lastPageGroup[0][0][0..8]+'<pageNo>'+lastPageGroup[0][0][-8..-1]
+		def lastPageNumber = Integer.parseInt(lastPageGroup[0][0][9..-9])
 
 		for(int i=1;i<=lastPageNumber;i++){
 			def resultSql='REPLACE INTO `usd_ntd` (`traded_day`,`USD`,`NTD`) VALUES'
@@ -48,14 +43,19 @@ class NtdInfo{
 				decode 'utf-8'
 				parsePage true
 			}
-			def match = currentPage =~ ~/<td data-th="標題\(日期\)"><span>(.+)<\/span><\/td>\r\n\s+<td data-th="NTD\/USD"><span>(.+)<\/span><\/td>/
-			match.find()
-			match.each{data->
-				def year=data[1].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1');
-				def month=data[1].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$3')
-				def day=data[1].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$5')
+
+			def currentPageData = module.parser.Regix.parse{
+				pattern ~/<td data-th="標題\(日期\)"><span>(.+)<\/span><\/td>\r\n\s+<td data-th="NTD\/USD"><span>(.+)<\/span><\/td>/
+				document currentPage
+				groups Arrays.asList(1,2)
+			} 
+
+			currentPageData.each{data->
+				def year=data[0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1');
+				def month=data[0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$3')
+				def day=data[0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$5')
 				def traded_day=String.format('%04d%02d%02d',Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day))
-				def usd = data[2]
+				def usd = data[1]
 				if(resultSql.endsWith('VALUES')){
 					resultSql+="\r\n('$traded_day','$usd','1')"
 				}else{
@@ -70,9 +70,8 @@ class NtdInfo{
    				}
 			}
 			print '*'
-			sleep(100)
+			sleep(1000)
 		}
-
 		module.db.SqlExecuter.execute{
 		    dir "./${sqlDirName}"
 		}
