@@ -39,8 +39,8 @@ class MonthlyClosingAveragePrice{
 						def returnJson = module.web.Webget.download{
 						     url _url
 						     decode 'utf-8'
-						     retry 5
-						     sleeptime 100
+						     retry 100
+						     sleeptime 1000
 						     validate true
 						}
 						module.parser.JsonConvert.convert{
