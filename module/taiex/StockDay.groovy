@@ -87,13 +87,14 @@
 			this.initRank()
 		}else{
 			this.updateRank()
+			this.initRank()
 		}
 
  	}
 
  	def initRank(){
 		def sql = module.db.SqlExecuter.dbConnection{}
-		def stockCodes = sql.rows("select stock.security_code from stock")
+		def stockCodes = sql.rows("select distinct sd.security_code from stock_day sd where sd.updown_times is null")
 
 		println stockCodes.size()
 

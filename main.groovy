@@ -1,7 +1,5 @@
 class Main{
 	static main(args) {
-
-
 		// Runtime.getRuntime().addShutdownHook(new Thread() {
 	 //            public void run() {
 	 //            	println ''+System.getSecurityManager().checkExit(1)
@@ -18,14 +16,15 @@ class Main{
 	// module.taiex.YearlyTradingSummary.sync{} //年底跑
 	// module.taiex.MonthlyClosingAveragePrice.sync{} //月底跑
 	// module.taiex.MonthlyTradingSummary.sync{}//月初跑
-	// module.taiex.HighlightsOfDailyTrading.sync{} //日跑
-	module.taiex.ForeignMainlandAreaInvestorsTradingAndShareholding.sync{} //日跑 晚上十點以後
-	module.taiex.DailyForeignShareholdingByIndustrial.sync{} //日跑 晚上十點以後
-	module.taiex.MarginTransactionl.sync{} //日跑 晚上十點以後
-	module.taiex.ShortSalesVolumeAndValue.sync{} W//日跑 晚上十點以後
+	// module.taiex.HighlightsOfDailyTrading。.sync{} //日跑
+	// module.taiex.ForeignMainlandAreaInvestorsTradingAndShareholding.sync{} //日跑 晚上十點以後
+	//module.taiex.DailyForeignShareholdingByIndustrial.sync{} //日跑 晚上十點以後
+	//module.taiex.MarginTransactionl.sync{} //日跑 晚上十點以後
+	//module.taiex.ShortSalesVolumeAndValue.sync{}//日跑 晚上十點以後
 	 // module.taiex.Taiex.sync{} //日跑
 	 //module.taiex.StatisticsTradePerMinute.sync{} //可以不用跑
 	// module.taiex.NtdInfo.sync{} //日跑
 	 // module.taiex.NexResult.sync{}
+	 module.taiex.InvestorsRank.sync{}
 	}
 }
