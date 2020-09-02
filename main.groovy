@@ -23,7 +23,7 @@ class Main{
 	// module.taiex.ShortSalesVolumeAndValue.sync{}//日跑 晚上十點以後
 	 // module.taiex.Taiex.sync{} //日跑
 	 //module.taiex.StatisticsTradePerMinute.sync{} //可以不用跑
-	// module.taiex.NtdInfo.sync{} //日跑
+	module.currency.NtdInfo.sync{} //日跑
 	 // module.taiex.NexResult.sync{}//日跑
 	 // module.taiex.InvestorsRank.sync{}//日跑
 	}

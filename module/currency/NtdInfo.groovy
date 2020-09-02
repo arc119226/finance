@@ -1,4 +1,4 @@
-package module.taiex
+package module.currency
 
 class NtdInfo{
 	def sqlDirName = 'usd_ntd'

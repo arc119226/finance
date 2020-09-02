@@ -45,8 +45,7 @@ class Investors{
 						if(resultSql && !resultSql.endsWith('VALUES ')){
 					    	module.io.Batch.exec{
 		                		mkdirs "./${sqlDirName}"
-		                		write "./${sqlDirName}/${item.type}${yyyyMmDd}.tmp",'UTF-8',"${resultSql};"
-		                		rename "./${sqlDirName}${item.type}/${yyyyMmDd}.tmp","./${sqlDirName}/${item.type}${yyyyMmDd}.sql"
+		                		write "./${sqlDirName}/${item.type}${yyyyMmDd}.sql",'UTF-8',"${resultSql};"
 		           			}//exec
 		           			print '*'
 						}//if
