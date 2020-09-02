@@ -71,8 +71,7 @@ class MarginTransactionl{
 					    if(resultSqlSummary && !resultSqlSummary.endsWith('VALUES ')){
 				     		module.io.Batch.exec{
                 				mkdirs "./${sqlDirName}/"
-                				write "./${sqlDirName}/${yyyyMmDd}_summary.tmp",'UTF-8',"${resultSql};"
-                				rename "./${sqlDirName}/${yyyyMmDd}_summary.tmp","./${sqlDirName}/${yyyyMmDd}_summary.sql"
+                				write "./${sqlDirName}/${yyyyMmDd}_summary.sql",'UTF-8',"${resultSql};"
            					}
 							print '*'
 						}

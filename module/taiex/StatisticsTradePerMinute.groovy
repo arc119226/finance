@@ -63,8 +63,7 @@ class StatisticsTradePerMinute{
 						///////
 							module.io.Batch.exec{
                 				mkdirs "./${sqlDirName}/${yyyyMmDd}"
-                				write "./${sqlDirName}/${yyyyMmDd}/${security_code}.tmp",'UTF-8',"${resultSql};"
-                				rename "./${sqlDirName}/${yyyyMmDd}/${security_code}.tmp","./${sqlDirName}/${yyyyMmDd}/${security_code}.sql"
+                				write "./${sqlDirName}/${yyyyMmDd}/${security_code}.sql",'UTF-8',"${resultSql};"
            					}
 						///////
 						}

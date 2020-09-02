@@ -62,8 +62,7 @@
 				if(resultSql && !resultSql.endsWith('VALUES ')){
 			    	module.io.Batch.exec{
                 		mkdirs "./${sqlDirName}"
-                		write "./${sqlDirName}/${security_code}.tmp",'UTF-8',"${resultSql};"
-                		rename "./${sqlDirName}/${security_code}.tmp","./${sqlDirName}/${security_code}.sql"
+                		write "./${sqlDirName}/${security_code}.sql",'UTF-8',"${resultSql};"
            			}
 					print '*'
 				}

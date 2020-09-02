@@ -79,7 +79,7 @@ class StockList{
             info 'save to file end'
         }
 
-        def sqlhead = 'REPLACE INTO `stock_tw`.`stock` (`security_code`, `stock_name`, `isin_code`, `listing_day`, `stock_type`, `stock_category`, `cfi_code`, `product_type`, `update_day`) VALUES '
+        def sqlhead = "REPLACE INTO `stock_tw`.`stock` (`security_code`, `stock_name`, `isin_code`, `listing_day`, `stock_type`, `stock_category`, `cfi_code`, `product_type`, `update_day`) VALUES "
         def updateDay = ''
         def productType =''
         new File(listFileName).eachLine { line ->

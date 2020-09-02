@@ -8,7 +8,7 @@ class CompanyGroup{
 		        url "https://stockchannelnew.sinotrade.com.tw/z/zg/zgd/zgd_EG00017_1.djhtm" 
 		}
 		s1 = s1.replaceAll(' selected','')
-		def sqlhead  = 'REPLACE INTO `stock_tw`.`company_group` (`group_code`,`group_name`) VALUES '
+		def sqlhead  = "REPLACE INTO `stock_tw`.`company_group` (`group_code`,`group_name`) VALUES "
 		def pattern = ~/option value=\"(.+)">(.+)<\/option>/
 		def matcher = s1 =~ pattern
 		matcher.find()
@@ -53,7 +53,7 @@ class CompanyGroup{
 			def pattern2 = ~/GenLink2stk\('(.+)'\,.+\);/
 			def matcher2 = s2 =~ pattern2
 			matcher2.find()
-			def sqlhead2  = 'REPLACE INTO `stock_tw`.`company_stock` (`security_code`,`group_code`) VALUES '
+			def sqlhead2  = "REPLACE INTO `stock_tw`.`company_stock` (`security_code`,`group_code`) VALUES "
 
 			matcher2.each{code->
 				def text = code[-1]
@@ -69,8 +69,7 @@ class CompanyGroup{
 			if(!sqlhead2.endsWith('VALUES ')){
 		 		module.io.Batch.exec{
 		 			mkdirs "./${sqlDirName}"
-		 			write "./${sqlDirName}/${currentTime}.tmp",'UTF-8',"${sqlhead2};"
-                	rename "./${sqlDirName}/${currentTime}.tmp","./${sqlDirName}/${currentTime}.sql" 
+		 			write "./${sqlDirName}/${currentTime}.sql",'UTF-8',"${sqlhead2};"
 		 		}
 			}
 			sleep(100)

@@ -42,8 +42,7 @@ class Taiex{
 			    	if(resultSql && !resultSql.endsWith('VALUES ')){
 						module.io.Batch.exec{
                 				mkdirs "./${sqlDirName}/"
-                				write "./${sqlDirName}/${yyyyMmDd}.tmp",'UTF-8',"${resultSql};"
-                				rename "./${sqlDirName}/${yyyyMmDd}.tmp","./${sqlDirName}/${yyyyMmDd}.sql"
+                				write "./${sqlDirName}/${yyyyMmDd}.sql",'UTF-8',"${resultSql};"
            				}
            				print '*'
 					}
