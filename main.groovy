@@ -18,13 +18,13 @@ class Main{
 	// module.taiex.MonthlyTradingSummary.sync{}//月初跑
 	// module.taiex.HighlightsOfDailyTrading。.sync{} //日跑
 	// module.taiex.ForeignMainlandAreaInvestorsTradingAndShareholding.sync{} //日跑 晚上十點以後
-	//module.taiex.DailyForeignShareholdingByIndustrial.sync{} //日跑 晚上十點以後
-	//module.taiex.MarginTransactionl.sync{} //日跑 晚上十點以後
-	//module.taiex.ShortSalesVolumeAndValue.sync{}//日跑 晚上十點以後
+	// module.taiex.DailyForeignShareholdingByIndustrial.sync{} //日跑 晚上十點以後
+	// module.taiex.MarginTransactionl.sync{} //日跑 晚上十點以後
+	// module.taiex.ShortSalesVolumeAndValue.sync{}//日跑 晚上十點以後
 	 // module.taiex.Taiex.sync{} //日跑
 	 //module.taiex.StatisticsTradePerMinute.sync{} //可以不用跑
 	// module.taiex.NtdInfo.sync{} //日跑
-	 // module.taiex.NexResult.sync{}
-	 module.taiex.InvestorsRank.sync{}
+	 // module.taiex.NexResult.sync{}//日跑
+	 // module.taiex.InvestorsRank.sync{}//日跑
 	}
 }
