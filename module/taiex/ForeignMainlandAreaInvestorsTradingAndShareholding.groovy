@@ -1,6 +1,8 @@
 package module.taiex
 class ForeignMainlandAreaInvestorsTradingAndShareholding{
 	def sqlDirName = 'foreign_mainland_area_investors_trading_and_shareholding'
+	def dbName = 'findb'
+	def tableName_foreign_mainland_area_investors_trading_and_shareholding='foreign_mainland_area_investors_trading_and_shareholding'
 	def doSync(){
 //////////////
 		module.processor.ProcessorRunner.runDayByDay{
@@ -28,9 +30,9 @@ class ForeignMainlandAreaInvestorsTradingAndShareholding{
 					            }
 					            def fields = json.fields.collect(fieldNormalize)
 
-					            def _sql = "REPLACE INTO `stock_tw`.`foreign_mainland_area_investors_trading_and_shareholding` (`security_code`, `name_of_security`, `isin_code`, `number_of_shares_issued`, `available_shares_bought`, `currently_shares_held`, `percentage_of_available_investment`, `percentage_of_shares_held`, `upper_limit`, `reasons_of_change`, `last_filing_date_by_listed_companies`, `traded_day`) VALUES "
+					            def _sql = "REPLACE INTO `${dbName}`.`${tableName_foreign_mainland_area_investors_trading_and_shareholding}` (`security_code`, `name_of_security`, `isin_code`, `number_of_shares_issued`, `available_shares_bought`, `currently_shares_held`, `percentage_of_available_investment`, `percentage_of_shares_held`, `upper_limit`, `reasons_of_change`, `last_filing_date_by_listed_companies`, `traded_day`) VALUES "
 					            if(Integer.valueOf(yyyyMmDd)>=20090504){
-					            	_sql = "REPLACE INTO `stock_tw`.`foreign_mainland_area_investors_trading_and_shareholding` (`security_code`, `name_of_security`, `isin_code`, `number_of_shares_issued`, `available_shares_bought`, `currently_shares_held`, `percentage_of_available_investment`, `percentage_of_shares_held`, `upper_limit`, `upper_limit_mainland`, `reasons_of_change`, `last_filing_date_by_listed_companies`, `traded_day`) VALUES "
+					            	_sql = "REPLACE INTO `${dbName}`.`${tableName_foreign_mainland_area_investors_trading_and_shareholding}` (`security_code`, `name_of_security`, `isin_code`, `number_of_shares_issued`, `available_shares_bought`, `currently_shares_held`, `percentage_of_available_investment`, `percentage_of_shares_held`, `upper_limit`, `upper_limit_mainland`, `reasons_of_change`, `last_filing_date_by_listed_companies`, `traded_day`) VALUES "
 					            }
 
 					            for(int i=0;i<json.data.size;i++){
@@ -56,7 +58,7 @@ class ForeignMainlandAreaInvestorsTradingAndShareholding{
 			}
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

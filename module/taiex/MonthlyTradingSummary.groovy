@@ -2,7 +2,8 @@ package module.taiex
 class MonthlyTradingSummary{
 	
 	def sqlDirName = 'monthly_trading_summary'
-
+	def dbName = 'findb'
+	def tableName = 'monthly_trading_summary'
 	def doSync(){
 		////////////
 		def sql = module.db.SqlExecuter.dbConnection{}
@@ -41,7 +42,7 @@ class MonthlyTradingSummary{
 							        }
 							        def fields = json.fields.collect(fieldNormalize)
 									if(resultSql==''){
-								    	resultSql = "REPLACE INTO `stock_tw`.`monthly_trading_summary` (`${fields.join('`,`')}`,`security_code`) VALUES "
+								    	resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`security_code`) VALUES "
 									}
 									for(int i=0;i<json.data.size;i++){
 								     	def _data = json.data[i].collect(valueNormalise).join("','");
@@ -72,7 +73,7 @@ class MonthlyTradingSummary{
 			}
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

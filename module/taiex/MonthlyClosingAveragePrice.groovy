@@ -1,7 +1,8 @@
 package module.taiex
 class MonthlyClosingAveragePrice{
 	def sqlDirName = 'monthly_closing_average_price'
-
+	def dbName = 'findb'
+	def tableName = 'monthly_closing_average_price'
 	def doSync(){
 		try{
 			this.doSyncDetail()
@@ -52,7 +53,7 @@ class MonthlyClosingAveragePrice{
 						        }
 						        def fields = json.fields.collect(fieldNormalize)
 						        if(resultSql==''){
-					            	resultSql = "REPLACE INTO `stock_tw`.`monthly_closing_average_price` (`${fields[0..1].join('`,`')}`,`traded_day`,`security_code`) VALUES "
+					            	resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields[0..1].join('`,`')}`,`traded_day`,`security_code`) VALUES "
 							    }
 							          
 							    for(int i=0;i<json.data.size;i++){
@@ -88,7 +89,7 @@ class MonthlyClosingAveragePrice{
 			}
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

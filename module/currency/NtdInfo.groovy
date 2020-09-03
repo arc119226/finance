@@ -2,6 +2,7 @@ package module.currency
 
 class NtdInfo{
 	def sqlDirName = 'usd_ntd'
+	def tableName = 'usd_ntd'
 	def baseUrl = 'https://www.cbc.gov.tw'
 	def menuUrl = baseUrl+ '/tw/np-639-1.html'
 
@@ -35,7 +36,7 @@ class NtdInfo{
 		def lastPageNumber = Integer.parseInt(lastPageGroup[0][0][9..-9])
 
 		for(int i=1;i<=lastPageNumber;i++){
-			def resultSql='REPLACE INTO `usd_ntd` (`traded_day`,`USD`,`NTD`) VALUES'
+			def resultSql="REPLACE INTO `${tableName}` (`traded_day`,`USD`,`NTD`) VALUES"
 			def currentPageUrl=pageTemplate.replace('<pageNo>',"$i")
 			println currentPageUrl
 			def currentPage = module.web.Webget.download{
@@ -72,7 +73,7 @@ class NtdInfo{
 			print '*'
 			sleep(1000)
 		}
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

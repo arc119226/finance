@@ -7,6 +7,9 @@ class StockList{
     def listFileName='tw_stock.txt'
     def sqlDirName='stocklist_sql'
 
+    def dbName = 'findb'
+    def tableName = 'stock'
+
     def url1(def url1){
         this.url1=url1
     }
@@ -46,9 +49,13 @@ class StockList{
         .replace('/','')
         .replace('\n','').trim()
 
-        module.io.Batch.exec{info 'parse 上市 end'}
+        module.io.Batch.exec{
+            info 'parse 上市 end'
+        }
 
-        def s4 = module.web.Webget.download{url api2}
+        def s4 = module.web.Webget.download{
+            url api2
+        }
 
         s4 = s4.trim().replace('<link rel="stylesheet" href="http://isin.twse.com.tw/isin/style1.css" type="text/css">','')
                     .replace("<body><table  align=center><h2><strong><font class='h1'>本國上市證券國際證券辨識號碼一覽表</font></strong></h2><h2><strong><font class='h1'>",'')
@@ -79,7 +86,7 @@ class StockList{
             info 'save to file end'
         }
 
-        def sqlhead = "REPLACE INTO `stock_tw`.`stock` (`security_code`, `stock_name`, `isin_code`, `listing_day`, `stock_type`, `stock_category`, `cfi_code`, `product_type`, `update_day`) VALUES "
+        def sqlhead = "REPLACE INTO `${dbName}`.`${tableName}` (`security_code`, `stock_name`, `isin_code`, `listing_day`, `stock_type`, `stock_category`, `cfi_code`, `product_type`, `update_day`) VALUES "
         def updateDay = ''
         def productType =''
         new File(listFileName).eachLine { line ->
@@ -106,7 +113,9 @@ class StockList{
             write "./${sqlDirName}/stock.sql",'UTF-8',sqlResult
             info 'convert to sql end'
         }
-        module.db.SqlExecuter.execute{dir './'+sqlDirName}
+        module.db.SqlExecuter.exec{
+            dir './'+sqlDirName
+        }
         module.io.Batch.exec{
             clean './'+sqlDirName
             delete './'+sqlDirName,listFileName

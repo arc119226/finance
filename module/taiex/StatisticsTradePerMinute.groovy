@@ -2,6 +2,8 @@
 
 class StatisticsTradePerMinute{
 	def sqlDirName = 'statistics_trade_per_minute'
+	def dbName = 'findb'
+	def tableName = 'statistics_trade_per_minute'
 	def doSync(){
 ////////////////////////////
 		def sql = module.db.SqlExecuter.dbConnection{}
@@ -38,7 +40,7 @@ class StatisticsTradePerMinute{
 			            		}
 			            		def fields = json.fields.collect(fieldNormalize)
 			            		if(resultSql==''){
-			            			resultSql = "REPLACE INTO `stock_tw`.`statistics_trade_per_minute` (`${fields.join('`,`')}`,`traded_day`,`security_code`) VALUES "
+			            			resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`traded_day`,`security_code`) VALUES "
 			            		}
 			            		for(int i=0;i<json.data.size;i++){
 			            			def data = json.data[i];
@@ -75,7 +77,7 @@ class StatisticsTradePerMinute{
 			}
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

@@ -2,14 +2,16 @@ package module.taiex
 
 class ConceptStock{
 	def sqlDirName = 'concept_stock'
-
+	def dbName = 'findb'
+	def tableName_concept_group = 'concept_group'
+	def tableName_concept_stock = 'concept_stock'
 	def doSync(){
 		///
 		def s1 = module.web.Webget.download{
 		        url "https://stockchannelnew.sinotrade.com.tw/z/zg/zge/zge_EH000118_1.djhtm"
 		}
 		s1 = s1.replaceAll(' selected','')
-		def sqlhead  = "REPLACE INTO `stock_tw`.`concept_group` (`group_code`,`group_name`) VALUES "
+		def sqlhead  = "REPLACE INTO `${dbName}`.`${tableName_concept_group}` (`group_code`,`group_name`) VALUES "
 		def pattern = ~/option value=\"(.+)">(.+)<\/option>/
 		def matcher = s1 =~ pattern
 		matcher.find()
@@ -26,12 +28,11 @@ class ConceptStock{
 			def currentTime = new Date().getTime();
 			module.io.Batch.exec{
 		 			mkdirs "./${sqlDirName}"
-		 			write "./${sqlDirName}/${currentTime}.tmp",'UTF-8',"${sqlhead};"
-                	rename "./${sqlDirName}/${currentTime}.tmp","./${sqlDirName}/${currentTime}.sql" 
+		 			write "./${sqlDirName}/${currentTime}.sql",'UTF-8',"${sqlhead};"
 		 	}
 		}
 		println sqlhead
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{
@@ -39,7 +40,7 @@ class ConceptStock{
 		}
 
 		def sql = module.db.SqlExecuter.dbConnection{}
-		def groups = sql.rows("select * from concept_group ")
+		def groups = sql.rows("select * from ${tableName_concept_group} ")
 		sql.close()
 		groups.each{group->
 			println group.group_code
@@ -49,7 +50,7 @@ class ConceptStock{
 			def pattern2 = ~/GenLink2stk\('(.+)'\,.+\);/
 			def matcher2 = s2 =~ pattern2
 			matcher2.find()
-			def sqlhead2  = "REPLACE INTO `stock_tw`.`concept_stock` (`security_code`,`group_code`) VALUES "
+			def sqlhead2  = "REPLACE INTO `${dbName}`.`${tableName_concept_stock}` (`security_code`,`group_code`) VALUES "
 
 			matcher2.each{code->
 				def text = code[-1]
@@ -71,7 +72,7 @@ class ConceptStock{
 			sleep(100)
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

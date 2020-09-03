@@ -5,7 +5,7 @@ import groovy.sql.Sql
 
 class SqlExecuter{
 	String driver='com.mysql.jdbc.Driver'
-	String jdbc='jdbc:mysql://127.0.0.1:3306/stock_tw?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4'
+	String jdbc='jdbc:mysql://127.0.0.1:3306/findb?useUnicode=yes&characterEncoding=UTF-8&character_set_server=utf8mb4'
 	String user='root'
 	String pass='Esorn@ldorn110'
 	String dir
@@ -50,7 +50,7 @@ class SqlExecuter{
 		sql.close()
 		return result
 	}
-	def static execute(@DelegatesTo(SqlExecuter) Closure block){
+	def static exec(@DelegatesTo(SqlExecuter) Closure block){
 		SqlExecuter m = new SqlExecuter()
 		block.delegate = m
 		block()

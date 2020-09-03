@@ -2,7 +2,8 @@
 
  class YearlyTradingSummary{
  	def sqlDirName = 'yearly_trading_summary'
-
+ 	def dbName = 'findb'
+ 	def tableName = 'yearly_trading_summary'
  	def doSync(){
  		/////////
  		def sql = module.db.SqlExecuter.dbConnection{}
@@ -26,7 +27,7 @@
 									    	//print '.'
 									    	return ''
 								        }
-								        resultSql = "REPLACE INTO `stock_tw`.`yearly_trading_summary` (`year`, `trade_volume`, `trade_value`, `transaction`, `highest_price`, `date_highest_price`, `lowest_price`, `date_lowest_price`, `average_closing_price`, `security_code`) VALUES "
+								        resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`year`, `trade_volume`, `trade_value`, `transaction`, `highest_price`, `date_highest_price`, `lowest_price`, `date_lowest_price`, `average_closing_price`, `security_code`) VALUES "
 								    	for(int i=0;i<json.data.size;i++){
 								    		def _data = json.data[i]
 								    		def year = _data[0]
@@ -71,7 +72,7 @@
 			}
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

@@ -1,6 +1,8 @@
 package module.taiex
 class MarginTransactionl{
 	def sqlDirName = 'margin_transactionl'
+	def dbName = 'findb'
+	def tableName = 'margin_transactions_all'
 	def doSync(){
 /////////////////////
 		module.processor.ProcessorRunner.runDayByDay{
@@ -26,7 +28,7 @@ class MarginTransactionl{
 					            if(json.stat != 'OK'){
 					               return ''
 					            }
-					            def _sql = "REPLACE INTO `stock_tw`.`margin_transactions_all` (`security_code`,`margin_purchase`,`margin_sales`,`cash_redemption`,`balance_of_previous_day`,`balance_of_the_day`,`quota`,`short_covering`,`short_sale`,`stock_redemption`,`short_balance_of_previous_day`,`short_balance_of_the_day`,`short_quota`,`offsetting_of_margin_purchases_and_short_sales`,`note`,`traded_day`) VALUES "
+					            def _sql = "REPLACE INTO `${dbName}`.`${tableName}` (`security_code`,`margin_purchase`,`margin_sales`,`cash_redemption`,`balance_of_previous_day`,`balance_of_the_day`,`quota`,`short_covering`,`short_sale`,`stock_redemption`,`short_balance_of_previous_day`,`short_balance_of_the_day`,`short_quota`,`offsetting_of_margin_purchases_and_short_sales`,`note`,`traded_day`) VALUES "
 					            
 					            for(int i=0;i<json.data.size;i++){
 					               def _data = json.data[i].collect(valueNormalise).join("','");
@@ -42,8 +44,7 @@ class MarginTransactionl{
 					    if(resultSql && !resultSql.endsWith('VALUES ')){
 							module.io.Batch.exec{
                 				mkdirs "./${sqlDirName}/"
-                				write "./${sqlDirName}/${yyyyMmDd}_all.tmp",'UTF-8',"${resultSql};"
-                				rename "./${sqlDirName}/${yyyyMmDd}_all.tmp","./${sqlDirName}/${yyyyMmDd}_all.sql"
+                				write "./${sqlDirName}/${yyyyMmDd}_all.sql",'UTF-8',"${resultSql};"
            					}
 							print '#'
 						}
@@ -55,7 +56,7 @@ class MarginTransactionl{
 					               return ''
 					            }
 					            def fields = json.creditFields.collect(fieldNormalize)
-					            def _sql = "REPLACE INTO `stock_tw`.`margin_transaction_summary` (`${fields.join('`,`')}`,`traded_day`) VALUES "
+					            def _sql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`traded_day`) VALUES "
 					            
 					            for(int i=0;i<json.creditList.size;i++){
 					               def _data = json.creditList[i].collect(valueNormalise).join("','");
@@ -79,7 +80,7 @@ class MarginTransactionl{
 			}
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

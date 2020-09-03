@@ -1,6 +1,8 @@
 package module.taiex
 class HighlightsOfDailyTrading{
 	def sqlDirName = 'highlights_of_daily_trading'
+	def dbName = 'findb'
+	def tableName_highlights_of_daily_trading='highlights_of_daily_trading'
 	def doSync(){
 ////////////////
 		module.processor.ProcessorRunner.runMonthByMonth{
@@ -28,7 +30,7 @@ class HighlightsOfDailyTrading{
 					            }
 					            def fields = json.fields.collect(fieldNormalize)
 
-					            def _sql = "REPLACE INTO `stock_tw`.`highlights_of_daily_trading` (`${fields.join('`,`')}`,`traded_day`) VALUES "
+					            def _sql = "REPLACE INTO `${dbName}`.`${tableName_highlights_of_daily_trading}` (`${fields.join('`,`')}`,`traded_day`) VALUES "
 					            
 					            for(int i=0;i<json.data.size;i++){
 					               def _data = json.data[i].collect(valueNormalise).join("','");
@@ -53,7 +55,7 @@ class HighlightsOfDailyTrading{
 			}
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}/"
 		}
 		module.io.Batch.exec{

@@ -2,6 +2,8 @@
 
  class StockDay{
  	Boolean isInit =false
+ 	def dbName = 'findb'
+ 	def tableName = 'stock_day'
  	def isInit(Boolean isInit){
  		this.isInit=isInit
  	}
@@ -40,7 +42,7 @@
 					            }
 					            def fields = json.fields.collect(fieldNormalize)
 					            if(resultSql==''){
-					            	resultSql = "REPLACE INTO `stock_tw`.`stock_day` (`${fields.join('`,`')}`,`traded_day`,`security_code`) VALUES "
+					            	resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`traded_day`,`security_code`) VALUES "
 					            }
 					            for(int i=0;i<json.data.size;i++){
 					            	def dt = json.data[i]
@@ -72,7 +74,7 @@
 			}
 		}//each stock
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

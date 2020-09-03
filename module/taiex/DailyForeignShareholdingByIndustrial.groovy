@@ -1,6 +1,8 @@
 package module.taiex
 class DailyForeignShareholdingByIndustrial{
 	def sqlDirName = 'daily_foreign_shareholding_by_industrial'
+	def dbName = 'findb'
+	def tableName_daily_foreign_shareholding_by_industrial = 'daily_foreign_shareholding_by_industrial'
 	def doSync(){
 /////////////////////
 		module.processor.ProcessorRunner.runDayByDay{
@@ -28,7 +30,7 @@ class DailyForeignShareholdingByIndustrial{
 					            }
 					            def fields = json.fields.collect(fieldNormalize)
 
-					            def _sql = "REPLACE INTO `stock_tw`.`daily_foreign_shareholding_by_industrial` (`category_of_Industry`,`numbers`,`number_of_shares_issued`,`currently_foreign_and_mainland_area_shares_held`,`percentage_of_foreign_and_mainland_area_shares_held`,`traded_day`) VALUES "
+					            def _sql = "REPLACE INTO `${dbName}`.`${tableName_daily_foreign_shareholding_by_industrial}` (`category_of_Industry`,`numbers`,`number_of_shares_issued`,`currently_foreign_and_mainland_area_shares_held`,`percentage_of_foreign_and_mainland_area_shares_held`,`traded_day`) VALUES "
 					            
 					            for(int i=0;i<json.data.size;i++){
 					               def _data = json.data[i].collect(valueNormalise).join("','");
@@ -53,7 +55,7 @@ class DailyForeignShareholdingByIndustrial{
 			}
 		}
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{

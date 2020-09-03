@@ -2,13 +2,16 @@ package module.taiex
 
 class CompanyGroup{
 	def sqlDirName = 'company_group'
+	def dbName = 'findb'
+	def tableName_company_group = 'company_group'
+	def tableName_company_stock = 'company_stock'
  	def doSync(){
 //
 		def s1 = module.web.Webget.download{
 		        url "https://stockchannelnew.sinotrade.com.tw/z/zg/zgd/zgd_EG00017_1.djhtm" 
 		}
 		s1 = s1.replaceAll(' selected','')
-		def sqlhead  = "REPLACE INTO `stock_tw`.`company_group` (`group_code`,`group_name`) VALUES "
+		def sqlhead  = "REPLACE INTO `${dbName}`.`${tableName_company_group}` (`group_code`,`group_name`) VALUES "
 		def pattern = ~/option value=\"(.+)">(.+)<\/option>/
 		def matcher = s1 =~ pattern
 		matcher.find()
@@ -25,11 +28,10 @@ class CompanyGroup{
 			def currentTime = new Date().getTime();
 			module.io.Batch.exec{
 		 			mkdirs "./${sqlDirName}"
-		 			write "./${sqlDirName}/${currentTime}.tmp",'UTF-8',"${sqlhead};"
-                	rename "./${sqlDirName}/${currentTime}.tmp","./${sqlDirName}/${currentTime}.sql" 
+		 			write "./${sqlDirName}/${currentTime}.sql",'UTF-8',"${sqlhead};"
 		 	}
 		}
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{
@@ -37,7 +39,7 @@ class CompanyGroup{
 		}
 
 		def sql = module.db.SqlExecuter.dbConnection{}
-		def groups = sql.rows("select * from company_group ")
+		def groups = sql.rows("select * from ${tableName_company_group} ")
 		sql.close()
 
 		groups.each{group->
@@ -53,7 +55,7 @@ class CompanyGroup{
 			def pattern2 = ~/GenLink2stk\('(.+)'\,.+\);/
 			def matcher2 = s2 =~ pattern2
 			matcher2.find()
-			def sqlhead2  = "REPLACE INTO `stock_tw`.`company_stock` (`security_code`,`group_code`) VALUES "
+			def sqlhead2  = "REPLACE INTO `${dbName}`.`${tableName_company_stock}` (`security_code`,`group_code`) VALUES "
 
 			matcher2.each{code->
 				def text = code[-1]
@@ -76,7 +78,7 @@ class CompanyGroup{
 		}
 
 
-		module.db.SqlExecuter.execute{
+		module.db.SqlExecuter.exec{
 		    dir "./${sqlDirName}"
 		}
 		module.io.Batch.exec{
