@@ -218,6 +218,12 @@ class Webget{
                                     r.contains('No data found.')||
                                     r.contains('Sorry')){
                             return r
+                    }else if(r.contains('high') &&
+                             r.contains('low') &&
+                             r.contains('open') &&
+                             r.contains('close')
+                            ){
+                        return r
                     }
                 }//end else
             }//if
