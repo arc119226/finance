@@ -11,7 +11,7 @@ class ConceptStock{
 		        url "https://stockchannelnew.sinotrade.com.tw/z/zg/zge/zge_EH000118_1.djhtm"
 		}
 		s1 = s1.replaceAll(' selected','')
-		def sqlhead  = "REPLACE INTO `${dbName}`.`${tableName_concept_group}` (`group_code`,`group_name`) VALUES "
+		def sqlhead  = "REPLACE INTO `${dbName}`.`concept_group` (`group_code`,`group_name`) VALUES "
 		def pattern = ~/option value=\"(.+)">(.+)<\/option>/
 		def matcher = s1 =~ pattern
 		matcher.find()
@@ -40,7 +40,7 @@ class ConceptStock{
 		}
 
 		def sql = module.db.SqlExecuter.dbConnection{}
-		def groups = sql.rows("select * from ${tableName_concept_group} ")
+		def groups = sql.rows("select * from concept_group ")
 		sql.close()
 		groups.each{group->
 			println group.group_code
@@ -50,7 +50,7 @@ class ConceptStock{
 			def pattern2 = ~/GenLink2stk\('(.+)'\,.+\);/
 			def matcher2 = s2 =~ pattern2
 			matcher2.find()
-			def sqlhead2  = "REPLACE INTO `${dbName}`.`${tableName_concept_stock}` (`security_code`,`group_code`) VALUES "
+			def sqlhead2  = "REPLACE INTO `${dbName}`.`concept_stock` (`security_code`,`group_code`) VALUES "
 
 			matcher2.each{code->
 				def text = code[-1]
