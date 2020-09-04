@@ -1,5 +1,8 @@
 package module.currency
 import java.text.SimpleDateFormat
+/**
+數位貨幣
+*/
 class BitcoinInfo{
 	def sqlDirName='currency'
 	def tableName='currency'

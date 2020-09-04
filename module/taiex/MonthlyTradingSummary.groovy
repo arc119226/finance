@@ -1,4 +1,7 @@
 package module.taiex
+/**
+個股月成交資訊
+*/
 class MonthlyTradingSummary{
 	
 	def sqlDirName = 'monthly_trading_summary'

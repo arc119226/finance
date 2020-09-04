@@ -1,5 +1,7 @@
 package module.taiex
-
+/**
+ 集團股
+*/
 class CompanyGroup{
 	def sqlDirName = 'company_group'
 	def dbName = 'findb'

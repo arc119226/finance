@@ -1,4 +1,7 @@
 package module.taiex
+/**
+外資投資持股統計
+*/
 class ForeignMainlandAreaInvestorsTradingAndShareholding{
 	def sqlDirName = 'foreign_mainland_area_investors_trading_and_shareholding'
 	def dbName = 'findb'

@@ -1,5 +1,7 @@
 package module.taiex
-
+/**
+ 概念股
+*/
 class ConceptStock{
 	def sqlDirName = 'concept_stock'
 	def dbName = 'findb'

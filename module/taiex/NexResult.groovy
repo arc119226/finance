@@ -1,4 +1,7 @@
 package module.taiex
+/**
+次日漲跌計算
+*/
 class NexResult{
 	def tableName = 'stock_day'
 	def doSync(){

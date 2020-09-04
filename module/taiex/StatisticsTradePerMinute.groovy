@@ -1,5 +1,7 @@
  package module.taiex
-
+/**
+每分鐘委託成交統計
+*/
 class StatisticsTradePerMinute{
 	def sqlDirName = 'statistics_trade_per_minute'
 	def dbName = 'findb'

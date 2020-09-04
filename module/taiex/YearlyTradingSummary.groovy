@@ -1,5 +1,7 @@
  package module.taiex
-
+/**
+年度成交資訊
+*/
  class YearlyTradingSummary{
  	def sqlDirName = 'yearly_trading_summary'
  	def dbName = 'findb'

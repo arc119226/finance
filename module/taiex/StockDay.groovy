@@ -1,5 +1,7 @@
  package module.taiex
-
+/**
+盤後 日交易量
+*/
  class StockDay{
  	Boolean isInit =false
  	def dbName = 'findb'

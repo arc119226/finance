@@ -1,5 +1,7 @@
 package module.currency
-
+/**
+台幣美元資訊
+*/
 class NtdInfo{
 	def sqlDirName = 'usd_ntd'
 	def tableName = 'usd_ntd'

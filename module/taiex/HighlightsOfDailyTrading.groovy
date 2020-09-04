@@ -1,4 +1,7 @@
 package module.taiex
+/**
+市場成交資訊
+*/
 class HighlightsOfDailyTrading{
 	def sqlDirName = 'highlights_of_daily_trading'
 	def dbName = 'findb'

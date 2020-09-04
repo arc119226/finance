@@ -1,4 +1,7 @@
 package module.taiex
+/**
+ 每日外資買賣 產業類股統計
+*/
 class DailyForeignShareholdingByIndustrial{
 	def sqlDirName = 'daily_foreign_shareholding_by_industrial'
 	def dbName = 'findb'

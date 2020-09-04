@@ -1,4 +1,7 @@
 package module.taiex
+/**
+當日融券賣出與借券賣出成交量值
+*/
 class ShortSalesVolumeAndValue{
 	def sqlDirName = 'short_sales_volume_and_value'
 	def dbName = 'findb'

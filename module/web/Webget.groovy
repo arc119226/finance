@@ -14,6 +14,8 @@ import java.security.cert.X509Certificate
 class Webget{
     static{
         System.setProperty("http.keepAlive", "false");
+        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+        System.setProperty("jdk.tls.client.protocols", "TLSv1")
         TrustManager[] trustAllCerts = [ 
             new X509TrustManager() {
                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -104,8 +106,14 @@ class Webget{
     def openConnection(){
         int failCount = 0
         for(int i=0; i<=retry;i++){
-            def get = new URL(url).openConnection()
-            get.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"); 
+            def _url =new URL(url)
+            def get
+            // get.setRequestProperty("User-Agent", "robot"); 
+            if(url.startsWith('https')){
+                get = _url.openConnection();
+            }else{
+                get = _url.openConnection()
+            }
             if(get.getResponseCode().equals(200)) {
                 InputStream is = get.getInputStream();
                 if(decode == null){
@@ -230,7 +238,7 @@ class Webget{
             if(i==retry){
                 File error = new File(errorLog)
                 error.append('\n'+get.getResponseCode()+' '+url+'')
-                System.exit(1)
+                // System.exit(1)
                 return null
             }//if
             print '.'+"${i} "

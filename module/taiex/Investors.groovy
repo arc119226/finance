@@ -1,5 +1,7 @@
 package module.taiex
-
+/**
+三大法人買賣超
+*/
 class Investors{
 	def sqlDirName='investors'
 	def dbName = 'findb'

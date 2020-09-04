@@ -1,4 +1,7 @@
 package module.taiex
+/**
+TAIEX  發行量加權股價指數歷史資料
+*/
 class Taiex{
 	def sqlDirName = 'taiex'
 	def dbName = 'findb'

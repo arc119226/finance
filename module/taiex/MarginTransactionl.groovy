@@ -1,4 +1,7 @@
 package module.taiex
+/**
+融資融券彙總 (全部)
+*/
 class MarginTransactionl{
 	def sqlDirName = 'margin_transactionl'
 	def dbName = 'findb'

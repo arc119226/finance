@@ -1,4 +1,7 @@
 package module.taiex
+/**
+三大法人連續買賣超統計
+*/
 class InvestorsRank{
  	Boolean isInit =false
  	def dbName='findb'

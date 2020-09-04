@@ -1,5 +1,7 @@
 package module.taiex
-
+/**
+股票基本資訊
+*/
 class StockList{
 
     def api1='https://isin.twse.com.tw/isin/C_public.jsp?strMode=2'

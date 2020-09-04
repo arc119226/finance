@@ -1,4 +1,7 @@
 package module.taiex
+/**
+每日收盤價及每月均價
+*/
 class MonthlyClosingAveragePrice{
 	def sqlDirName = 'monthly_closing_average_price'
 	def dbName = 'findb'

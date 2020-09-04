@@ -1,4 +1,12 @@
 package module.taiex
+/**
+本益比 
+判斷公司股價是否合理，通常用來分析獲利穩定的公司。
+淨值比
+判斷公司股價是否合理，通常用來分析獲利不穩定或虧損的公司。
+殖利率
+年報酬率
+*/
 class PeDyPb{
 
 	def sqlDirName='pe_dy_pb'
