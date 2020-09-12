@@ -19,6 +19,7 @@ class ForeignMainlandAreaInvestorsTradingAndShareholding{
 			    if(new File("./${sqlDirName}/${yyyyMmDd}.sql").exists()){
 			    	print '>'
 			    }else{
+			    	sleep(2400)
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/fund/MI_QFIIS?response=json&selectType=ALLBUT0999&date=${yyyyMmDd}"
 					         decode 'utf-8'
@@ -56,6 +57,11 @@ class ForeignMainlandAreaInvestorsTradingAndShareholding{
                 				write "./${sqlDirName}/${yyyyMmDd}.sql",'UTF-8',"${resultSql};"
            					}
 							print '*'
+						}else{
+							module.io.Batch.exec{
+		                		mkdirs "./${sqlDirName}"
+		                		write "./${sqlDirName}/${yyyyMmDd}.sql",'UTF-8',";"
+		           			}
 						}
 			    }
 			}

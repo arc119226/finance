@@ -69,9 +69,9 @@ class InvestorsRank{
 				}
 				//println dt.traded_day+' '+dt.stock_code+' '+currentRank+' '+lastRank
 				def updateResult = sql.executeUpdate("update ${tableName} set updown_times = :upDownTimes,last_updown_times = :lastUpDownTimes where id= :id",upDownTimes:currentRank,lastUpDownTimes:lastRank,id:dt.id)
-				print '#'
+				
 			}
-
+			print '#'
 		}
 		module.io.Batch.exec{
 			info 'init rank done'
@@ -127,8 +127,9 @@ class InvestorsRank{
 						currentRank = 0
 					}
 					def updateResult = sql.executeUpdate("update ${tableName} set updown_times = :upDownTimes,last_updown_times = :lastUpDownTimes where id= :id",upDownTimes:currentRank,lastUpDownTimes:lastRank,id:dt.id)
-					print '#'
+					
 				}
+				print '#'
 			}
 		}
 		sql.close()

@@ -79,7 +79,7 @@ class GoldInfo{
 		module.processor.ProcessorRunner.runDayByDay{
 					startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])//
 					startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
-					startday Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+					startday 1//Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-1
 					endYear Calendar.getInstance().get(Calendar.YEAR)
 					endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 					endDay Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -88,7 +88,7 @@ class GoldInfo{
 						if(new File("./${sqlDirName}/${yyyyMmDd}.sql").exists()){
 							println yyyyMmDd+' already done!'
 						}else{
-							sleep(1000)
+							sleep(2400)
 							def date="${yyyyMmDd[0..3]}-${yyyyMmDd[4..5]}-${yyyyMmDd[6..7]}"
 							def api = "https://goldprice.org/gold-price-today/${date}"
 							println api

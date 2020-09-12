@@ -15,14 +15,19 @@
  	def sqlConditon2 = "select distinct security_code from stock_day where updown_times is null"
  	def doSync(){
 		def stockCodes = module.db.SqlExecuter.query{queryString sqlConditon}
+		def fils = []
+		if(new File("./${sqlDirName}").list()){
+			fils=new File("./${sqlDirName}").list()
+		}
 		stockCodes.each{it->
 			def security_code = it.security_code
 			def listing_day = it.listing_day
 			if(listing_day<defaultLlistingDay){
 				listing_day=defaultLlistingDay
 			}
+			
 			def resultSql =''
-			if(!new File("./${sqlDirName}/${security_code}.sql").exists()){
+			if(!fils.contains("${security_code}.sql")){
 				module.processor.ProcessorRunner.runMonthByMonth{
 					startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])//
 					startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
@@ -31,6 +36,8 @@
 					endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 					endDay 1
 					process{yyyyMmDd->
+						println 'wait'
+						sleep(2400)
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&lang=en&stockNo=${security_code}&date=${yyyyMmDd}"
 					         decode 'utf-8'
@@ -69,10 +76,15 @@
                 		mkdirs "./${sqlDirName}"
                 		write "./${sqlDirName}/${security_code}.sql",'UTF-8',"${resultSql};"
            			}
+				}else{
+					module.io.Batch.exec{
+                		mkdirs "./${sqlDirName}"
+                		write "./${sqlDirName}/${security_code}.sql",'UTF-8',";"
+           			}
 				}
-				print '*'
+				println "${new Date()}"
 			}else{
-				print ">"
+				// print ">"
 			}
 		}//each stock
 
@@ -141,9 +153,9 @@
 				}
 				//println dt.traded_day+' '+dt.stock_code+' '+currentRank+' '+lastRank
 				def updateResult = sql.executeUpdate("update stock_day set updown_times = :upDownTimes,last_updown_times = :lastUpDownTimes where id= :id",upDownTimes:currentRank,lastUpDownTimes:lastRank,id:dt.id)
-				print '#'
+				
 			}
-
+			print '#'
 		}
 		module.io.Batch.exec{
 			info 'update rank done'
@@ -198,8 +210,9 @@
 						currentRank = 0
 					}
 					def updateResult = sql.executeUpdate("update stock_day set updown_times = :upDownTimes,last_updown_times = :lastUpDownTimes where id= :id",upDownTimes:currentRank,lastUpDownTimes:lastRank,id:dt.id)
-					print '#'
+					
 				}
+				print '#'
 			}
 		}
 		sql.close()

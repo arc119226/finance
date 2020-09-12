@@ -40,7 +40,7 @@ class Webget{
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
     }//end static
     String url=null,errorLog='error.txt',decode=null
-    int retry=100,sleeptime=25
+    int retry=100,sleeptime=2500
     boolean validate=false
     boolean validatePb=false
     boolean validateInv=false
@@ -111,10 +111,15 @@ class Webget{
             // get.setRequestProperty("User-Agent", "robot"); 
             if(url.startsWith('https')){
                 get = _url.openConnection();
+                get.setConnectTimeout(10000);
+                get.setReadTimeout(10000);
+                println 'open'
+                // get.connect()
             }else{
                 get = _url.openConnection()
             }
             if(get.getResponseCode().equals(200)) {
+                println '200'
                 InputStream is = get.getInputStream();
                 if(decode == null){
                     def r=org.apache.commons.io.IOUtils.toString(is);
@@ -132,6 +137,7 @@ class Webget{
                     def r=org.apache.commons.io.IOUtils.toString(is, decode);
                     get.disconnect()
                     if(r!=null && r.contains('OK')){
+                        println 'ok'
                         if(validate){
                             //need strict validate
                             def pattern = ~/(\d+\/\d+\/\d+)/

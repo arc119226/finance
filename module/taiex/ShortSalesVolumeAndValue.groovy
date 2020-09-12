@@ -20,6 +20,7 @@ class ShortSalesVolumeAndValue{
 
 			    	print '>'
 			    }else{
+			    	sleep(2400)
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=${yyyyMmDd}"
 					         decode 'utf-8'

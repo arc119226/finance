@@ -19,6 +19,7 @@ class DailyForeignShareholdingByIndustrial{
 			    if(new File("./${sqlDirName}/${yyyyMmDd}.sql").exists()){
 			    	print '>'
 			    }else{
+			    	sleep(2400)
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/fund/MI_QFIIS_cat?response=json&lang=en&date=${yyyyMmDd}"
 					         decode 'utf-8'
@@ -53,6 +54,11 @@ class DailyForeignShareholdingByIndustrial{
                 				write "./${sqlDirName}/${yyyyMmDd}.sql",'UTF-8',"${resultSql};"
            					}
            					println '*'
+						}else{
+					    	module.io.Batch.exec{
+                				mkdirs "./${sqlDirName}/"
+                				write "./${sqlDirName}/${yyyyMmDd}.sql",'UTF-8',";"
+           					}					
 						}
 			    }
 			}

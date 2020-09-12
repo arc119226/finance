@@ -16,6 +16,7 @@ class Taiex{
 			endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 			endDay 1
 			process{yyyyMmDd->
+				sleep(2400)
 				def resultSql =''
 				if(!new File("./${sqlDirName}/${yyyyMmDd}.sql").exists()){
 				    def returnJson = module.web.Webget.download{

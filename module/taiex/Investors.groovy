@@ -16,9 +16,11 @@ class Investors{
 				endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 				endDay Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 				process{yyyyMmDd->
+
 					if(new File("./${sqlDirName}/${item.type}${yyyyMmDd}.sql").exists()){
 						print '>'
 					}else{
+						sleep(2400)
 						def returnJson = module.web.Webget.download{
 					    	url "https://www.twse.com.tw/fund/${item.code}?response=json&lang=en&date=${yyyyMmDd}"
 					    	decode 'utf-8'
@@ -51,7 +53,12 @@ class Investors{
 		                		write "./${sqlDirName}/${item.type}${yyyyMmDd}.sql",'UTF-8',"${resultSql};"
 		           			}//exec
 		           			print '*'
-						}//if
+						}else{
+							module.io.Batch.exec{
+		                		mkdirs "./${sqlDirName}"
+		                		write "./${sqlDirName}/${item.type}${yyyyMmDd}.sql",'UTF-8',";"
+		           			}
+						}
 					}
 				}
 			}

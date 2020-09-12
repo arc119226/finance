@@ -19,6 +19,7 @@ class MarginTransactionl{
 			    if(new File("./${sqlDirName}/${yyyyMmDd}.sql").exists() && new File('./margin_transactionl/'+yyyyMmDd+'_all.sql').exists()){
 			    	print '>'
 			    }else{
+			    	sleep(2400)
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&lang=en&selectType=ALL&date=${yyyyMmDd}"
 					         decode 'utf-8'
@@ -50,6 +51,8 @@ class MarginTransactionl{
                 				write "./${sqlDirName}/${yyyyMmDd}_all.sql",'UTF-8',"${resultSql};"
            					}
 							print '#'
+						}else{
+							
 						}
 
 						def resultSqlSummary = module.parser.JsonConvert.convert{

@@ -2,8 +2,7 @@ class Main{
 	static main(args) {
 		// Runtime.getRuntime().addShutdownHook(new Thread() {
 	 //            public void run() {
-	 //            	println ''+System.getSecurityManager().checkExit(1)
-	 //                //"cmd /c start /min groovy Main.groovy & close.bat".execute()
+	 //                "cmd /c start /min groovy Main.groovy & close.bat".execute()
 
 	 //            }
 	 //        });
