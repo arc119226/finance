@@ -35,7 +35,7 @@ class Investors{
 					        def fields = json.fields.collect(fieldNormalize)
 						    def _sql = "REPLACE INTO `${dbName}`.`${tableName_investors}` (`${fields[1..4].join('`,`')}`,`traded_day`,`type`) VALUES "
 						            
-						     for(int i=0;i<json.data.size;i++){
+						     for(int i=0;i<json.data.size();i++){
 						     	def _data = json.data[i].collect(valueNormalise)[1..4].join("','");
 						        if(i==0){
 						        	_sql+="\r\n('${_data}','${yyyyMmDd}','${item.type}')"

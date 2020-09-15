@@ -30,7 +30,7 @@
 									    	return ''
 								        }
 								        resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`year`, `trade_volume`, `trade_value`, `transaction`, `highest_price`, `date_highest_price`, `lowest_price`, `date_lowest_price`, `average_closing_price`, `security_code`) VALUES "
-								    	for(int i=0;i<json.data.size;i++){
+								    	for(int i=0;i<json.data.size;()i++){
 								    		def _data = json.data[i]
 								    		def year = _data[0]
 								    		def trade_volume = _data[1].replaceAll(',','')

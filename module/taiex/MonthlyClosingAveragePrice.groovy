@@ -59,7 +59,7 @@ class MonthlyClosingAveragePrice{
 					            	resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields[0..1].join('`,`')}`,`traded_day`,`security_code`) VALUES "
 							    }
 							          
-							    for(int i=0;i<json.data.size;i++){
+							    for(int i=0;i<json.data.size();i++){
 							     	def _data = json.data[i].collect(valueNormalise)[0..1].join("','");
 							         if(resultSql.endsWith('VALUES ')){
 							        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');

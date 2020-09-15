@@ -64,7 +64,7 @@ class MarginTransactionl{
 					            def fields = json.creditFields.collect(fieldNormalize)
 					            def _sql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`traded_day`) VALUES "
 					            
-					            for(int i=0;i<json.creditList.size;i++){
+					            for(int i=0;i<json.creditList.size();i++){
 					               def _data = json.creditList[i].collect(valueNormalise).join("','");
 					               if(i==0){
 					                  _sql+="\r\n('${_data}','${yyyyMmDd}')"

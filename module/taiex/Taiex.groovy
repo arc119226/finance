@@ -35,7 +35,7 @@ class Taiex{
 				            if(resultSql==''){
 				            	resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`traded_day`) VALUES "
 				            }
-				            for(int i=0;i<json.data.size;i++){
+				            for(int i=0;i<json.data.size();i++){
 				                def _data = json.data[i].collect(valueNormalise).join("','");
 				                if(resultSql.endsWith('VALUES ')){
 				                  resultSql+="\r\n('${_data}','${yyyyMmDd}')"

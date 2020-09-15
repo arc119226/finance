@@ -47,7 +47,7 @@ class MonthlyTradingSummary{
 									if(resultSql==''){
 								    	resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`security_code`) VALUES "
 									}
-									for(int i=0;i<json.data.size;i++){
+									for(int i=0;i<json.data.size();i++){
 								     	def _data = json.data[i].collect(valueNormalise).join("','");
 									    if(resultSql.endsWith('VALUES ')){
 									        resultSql+= "\r\n('${_data}','${security_code}')"

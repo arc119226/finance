@@ -11,23 +11,59 @@
  	}
  	def defaultLlistingDay = 20100101
  	def sqlDirName = 'stock_day'
- 	def sqlConditon = 'select stock.security_code,stock.listing_day from stock where stock_type=\'上市\' order by stock.listing_day'
+ 	def sqlConditon = 'select * from stock where stock_type=\'上市\' order by stock.listing_day'
  	def sqlConditon2 = "select distinct security_code from stock_day where updown_times is null"
+ 	def z = [2330,2340,2350]
+	Random rnd = new Random()
  	def doSync(){
 		def stockCodes = module.db.SqlExecuter.query{queryString sqlConditon}
 		def fils = []
 		if(new File("./${sqlDirName}").list()){
 			fils=new File("./${sqlDirName}").list()
 		}
+		int skip=0
+		int processed=0
 		stockCodes.each{it->
 			def security_code = it.security_code
 			def listing_day = it.listing_day
+			def stock_name = it.stock_name
+			def product_type = it.product_type
 			if(listing_day<defaultLlistingDay){
 				listing_day=defaultLlistingDay
 			}
 			
 			def resultSql =''
 			if(!fils.contains("${security_code}.sql")){
+
+//////////////////
+				println 'total:'+stockCodes.size()+' skip:'+skip+' processed:'+processed
+				if(product_type.contains('權證')){
+					if(stock_name.length()>5){
+
+						def y = stock_name.replaceAll(/^.+(\d)([0-9A-c]).+(\d)(\d)$/,'$1');
+						def m = stock_name.replaceAll(/^.+(\d)([0-9A-c]).+(\d)(\d)$/,'$2');
+
+						if(Integer.parseInt(y) in [9]){
+							if(m in ['9','A','B','C']){
+								println stock_name+' 未到期'
+								
+							}else{
+								println stock_name+' 到期'
+								skip++
+								return 
+							}
+						}else if(Integer.parseInt(y) in [0]){
+							println stock_name+' 未到期'
+
+						}else{
+							println stock_name+' 到期'
+							skip++
+							return
+						}
+					}
+				}	
+//////////////////
+
 				module.processor.ProcessorRunner.runMonthByMonth{
 					startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])//
 					startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
@@ -36,8 +72,10 @@
 					endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 					endDay 1
 					process{yyyyMmDd->
-						println 'wait'
-						sleep(2400)
+						def w = z[rnd.nextInt(z.size())]
+						println 'wait'+ w
+						sleep(w)
+
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&lang=en&stockNo=${security_code}&date=${yyyyMmDd}"
 					         decode 'utf-8'
@@ -53,7 +91,7 @@
 					            if(resultSql==''){
 					            	resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`traded_day`,`security_code`) VALUES "
 					            }
-					            for(int i=0;i<json.data.size;i++){
+					            for(int i=0;i<json.data.size();i++){
 					            	def dt = json.data[i]
 					            	def dayArr = dt[0].split('/')
 									def year = Integer.parseInt(dayArr[0].trim())
@@ -82,9 +120,11 @@
                 		write "./${sqlDirName}/${security_code}.sql",'UTF-8',";"
            			}
 				}
+				processed++
 				println "${new Date()}"
 			}else{
 				// print ">"
+				skip++
 			}
 		}//each stock
 

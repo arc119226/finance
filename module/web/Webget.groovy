@@ -111,8 +111,8 @@ class Webget{
             // get.setRequestProperty("User-Agent", "robot"); 
             if(url.startsWith('https')){
                 get = _url.openConnection();
-                get.setConnectTimeout(10000);
-                get.setReadTimeout(10000);
+                get.setConnectTimeout(5000);
+                get.setReadTimeout(5000);
                 println 'open'
                 // get.connect()
             }else{

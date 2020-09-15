@@ -36,7 +36,7 @@ class HighlightsOfDailyTrading{
 
 					            def _sql = "REPLACE INTO `${dbName}`.`${tableName_highlights_of_daily_trading}` (`${fields.join('`,`')}`,`traded_day`) VALUES "
 					            
-					            for(int i=0;i<json.data.size;i++){
+					            for(int i=0;i<json.data.size();i++){
 					               def _data = json.data[i].collect(valueNormalise).join("','");
 					               if(i==0){
 					                  _sql+="\r\n('${_data}','${yyyyMmDd}')"

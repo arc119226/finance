@@ -44,7 +44,7 @@ class StatisticsTradePerMinute{
 			            		if(resultSql==''){
 			            			resultSql = "REPLACE INTO `${dbName}`.`${tableName}` (`${fields.join('`,`')}`,`traded_day`,`security_code`) VALUES "
 			            		}
-			            		for(int i=0;i<json.data.size;i++){
+			            		for(int i=0;i<json.data.size();i++){
 			            			def data = json.data[i];
 			            			def time = "${yyyyMmDd}${data[0].replaceAll(':','')}" 
 			            			def acc_bid_orders = data[1].replaceAll(',','')

@@ -36,7 +36,7 @@ class DailyForeignShareholdingByIndustrial{
 
 					            def _sql = "REPLACE INTO `${dbName}`.`${tableName_daily_foreign_shareholding_by_industrial}` (`category_of_Industry`,`numbers`,`number_of_shares_issued`,`currently_foreign_and_mainland_area_shares_held`,`percentage_of_foreign_and_mainland_area_shares_held`,`traded_day`) VALUES "
 					            
-					            for(int i=0;i<json.data.size;i++){
+					            for(int i=0;i<json.data.size();i++){
 					               def _data = json.data[i].collect(valueNormalise).join("','");
 					               if(i==0){
 					                  _sql+="\r\n('${_data}','${yyyyMmDd}')"
