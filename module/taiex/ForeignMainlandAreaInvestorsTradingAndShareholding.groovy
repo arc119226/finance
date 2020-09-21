@@ -19,7 +19,11 @@ class ForeignMainlandAreaInvestorsTradingAndShareholding{
 			    if(new File("./${sqlDirName}/${yyyyMmDd}.sql").exists()){
 			    	print '>'
 			    }else{
-			    	sleep(2400)
+						 def z = [2330,2340,2350]
+						Random rnd = new Random()
+						def w = z[rnd.nextInt(z.size())]
+						println 'wait'+ w
+						sleep(w)
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/fund/MI_QFIIS?response=json&selectType=ALLBUT0999&date=${yyyyMmDd}"
 					         decode 'utf-8'

@@ -19,7 +19,11 @@ class MarginTransactionl{
 			    if(new File("./${sqlDirName}/${yyyyMmDd}.sql").exists() && new File('./margin_transactionl/'+yyyyMmDd+'_all.sql').exists()){
 			    	print '>'
 			    }else{
-			    	sleep(2400)
+						 def z = [2330,2340,2350]
+						Random rnd = new Random()
+						def w = z[rnd.nextInt(z.size())]
+						println 'wait'+ w
+						sleep(w)
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/exchangeReport/MI_MARGN?response=json&lang=en&selectType=ALL&date=${yyyyMmDd}"
 					         decode 'utf-8'
@@ -34,7 +38,7 @@ class MarginTransactionl{
 					            }
 					            def _sql = "REPLACE INTO `${dbName}`.`${tableName}` (`security_code`,`margin_purchase`,`margin_sales`,`cash_redemption`,`balance_of_previous_day`,`balance_of_the_day`,`quota`,`short_covering`,`short_sale`,`stock_redemption`,`short_balance_of_previous_day`,`short_balance_of_the_day`,`short_quota`,`offsetting_of_margin_purchases_and_short_sales`,`note`,`traded_day`) VALUES "
 					            
-					            for(int i=0;i<json.data.size;i++){
+					            for(int i=0;i<json.data.size();i++){
 					               def _data = json.data[i].collect(valueNormalise).join("','");
 					               if(i==0){
 					                  _sql+="\r\n('${_data}','${yyyyMmDd}')"

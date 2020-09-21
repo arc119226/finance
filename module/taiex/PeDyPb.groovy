@@ -25,7 +25,7 @@ class PeDyPb{
 		    	if(new File("./${sqlDirName}/${yyyyMmDd}.sql").exists()){
 		    		print '>'
 		    	}else{
-		    		sleep(1000)
+		    		sleep(2800)
 				    def returnJson = module.web.Webget.download{
 				         url "https://www.twse.com.tw/exchangeReport/BWIBBU_d?response=json&selectType=ALL&lang=en&date=${yyyyMmDd}"
 				         decode 'utf-8'

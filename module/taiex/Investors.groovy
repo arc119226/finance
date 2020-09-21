@@ -20,7 +20,11 @@ class Investors{
 					if(new File("./${sqlDirName}/${item.type}${yyyyMmDd}.sql").exists()){
 						print '>'
 					}else{
-						sleep(2400)
+						 def z = [2500,2600,2700,2800,2900,3000]
+						Random rnd = new Random()
+						def w = z[rnd.nextInt(z.size())]
+						println 'wait'+ w
+						sleep(w)
 						def returnJson = module.web.Webget.download{
 					    	url "https://www.twse.com.tw/fund/${item.code}?response=json&lang=en&date=${yyyyMmDd}"
 					    	decode 'utf-8'

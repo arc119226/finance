@@ -16,7 +16,11 @@ class Taiex{
 			endMonth Calendar.getInstance().get(Calendar.MONTH)+1
 			endDay 1
 			process{yyyyMmDd->
-				sleep(2400)
+						 def z = [2330,2340,2350]
+						Random rnd = new Random()
+						def w = z[rnd.nextInt(z.size())]
+						println 'wait'+ w
+						sleep(w)
 				def resultSql =''
 				if(!new File("./${sqlDirName}/${yyyyMmDd}.sql").exists()){
 				    def returnJson = module.web.Webget.download{

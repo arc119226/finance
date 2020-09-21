@@ -20,7 +20,11 @@ class ShortSalesVolumeAndValue{
 
 			    	print '>'
 			    }else{
-			    	sleep(2400)
+						 def z = [2330,2340,2350]
+						Random rnd = new Random()
+						def w = z[rnd.nextInt(z.size())]
+						println 'wait'+ w
+						sleep(w)
 					    def returnJson = module.web.Webget.download{
 					         url "https://www.twse.com.tw/exchangeReport/TWTASU?response=json&lang=en&date=${yyyyMmDd}"
 					         decode 'utf-8'
