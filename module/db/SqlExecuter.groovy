@@ -35,7 +35,7 @@ class SqlExecuter{
 		new File(dir).list().each{ code ->
 			println code
 		    def text = new File("${dir}/${code}").text
-		    if(text && !text.trim().endsWith('VALUES ;') && !text.trim().startsWith('!')&&!text.trim().startsWith(';')){
+		    if(text && !text.trim().endsWith('VALUES;') && !text.trim().endsWith('VALUES ;') && !text.trim().startsWith('!')&&!text.trim().startsWith(';')){
 		        sql.execute(text)
 		    }
 		}

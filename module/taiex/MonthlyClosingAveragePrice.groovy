@@ -32,19 +32,23 @@ class MonthlyClosingAveragePrice{
 				//print listing_day
 				module.processor.ProcessorRunner.runMonthByMonth{
 					startYear Calendar.getInstance().get(Calendar.YEAR)//Integer.valueOf(listing_day.toString()[0..3])
-					startMonth Calendar.getInstance().get(Calendar.MONTH)+1//Integer.valueOf(listing_day.toString()[4..5])
+					startMonth Calendar.getInstance().get(Calendar.MONTH)//Integer.valueOf(listing_day.toString()[4..5])
 					startday 1//Integer.valueOf(listing_day.toString()[6..7])
 					endYear Calendar.getInstance().get(Calendar.YEAR)
-					endMonth Calendar.getInstance().get(Calendar.MONTH)+1
+					endMonth Calendar.getInstance().get(Calendar.MONTH)
 					endDay 1
 					process{yyyyMmDd->
+						def z = [2550,2550,2550]
+						Random rnd = new Random()
+						def w = z[rnd.nextInt(z.size())]
+						println 'wait'+ w
+						sleep(w)
 						def _url = "https://www.twse.com.tw/exchangeReport/STOCK_DAY_AVG?response=json&lang=en&stockNo=${security_code}&date=${yyyyMmDd}"
+						println _url
 						//print '.'
 						def returnJson = module.web.Webget.download{
 						     url _url
 						     decode 'utf-8'
-						     retry 100
-						     sleeptime 1000
 						     validate true
 						}
 						module.parser.JsonConvert.convert{
@@ -65,7 +69,7 @@ class MonthlyClosingAveragePrice{
 							        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');
 
 							        	resultSql+= "\r\n('${_data}','${td}','${security_code}')"
-							        }else if(i==json.data.size-1){
+							        }else if(i==json.data.size()-1){
 							        	resultSql+= "\r\n,('${_data}','${yyyyMmDd}','${security_code}')"
 							        }else{
 							        	def td = json.data[i][0].replaceAll(/^(\d+)(\/)(\d+)(\/)(\d+)$/,'$1$3$5');
@@ -86,7 +90,12 @@ class MonthlyClosingAveragePrice{
            			}
 			 		print '*'
 			 		// sleep(100)
-				}		
+				}else{
+					module.io.Batch.exec{
+                		mkdirs "./${sqlDirName}"
+                		write "./${sqlDirName}/${security_code}.sql",'UTF-8',";"
+           			}
+				}	
 			}else{
 				print '>'
 			}

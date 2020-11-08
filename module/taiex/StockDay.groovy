@@ -13,7 +13,7 @@
  	def sqlDirName = 'stock_day'
  	def sqlConditon = 'select * from stock where stock_type=\'上市\' order by stock.listing_day'
  	def sqlConditon2 = "select distinct security_code from stock_day where updown_times is null"
- 	def z = [2330,2340,2350]
+ 	def z = [2450,2400,2550]
 	Random rnd = new Random()
  	def doSync(){
 		def stockCodes = module.db.SqlExecuter.query{queryString sqlConditon}
@@ -44,7 +44,7 @@
 						def m = stock_name.replaceAll(/^.+(\d)([0-9A-c]).+(\d)(\d)$/,'$2');
 
 						if(Integer.parseInt(y) in [9]){
-							if(m in ['9','A','B','C']){
+							if(m in ['A','B','C']){
 								println stock_name+' 未到期'
 								
 							}else{
